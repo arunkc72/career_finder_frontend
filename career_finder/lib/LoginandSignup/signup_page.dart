@@ -1,130 +1,89 @@
+import 'package:career_finder/Utils/constants.dart';
+import 'package:career_finder/Utils/custom_textfield.dart';
 import 'package:career_finder/Utils/routes.dart';
 import 'package:flutter/material.dart';
 
-class SignUpPage extends StatelessWidget {
-  const SignUpPage({super.key});
+import '../Utils/custom_backbotton.dart';
+import '../Utils/custom_button.dart';
+
+class SignupPage extends StatefulWidget {
+  const SignupPage({super.key});
+
+  @override
+  State<SignupPage> createState() => _SignupPageState();
+}
+
+class _SignupPageState extends State<SignupPage> {
+  final _formkey = GlobalKey<FormState>();
+  validateform() {
+    if (_formkey.currentState!.validate()) {
+      Navigator.pushNamed(context, MyRoutes.loginPage);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      body: CustomScrollView(
-        slivers: [
-          const SliverAppBar(
-            centerTitle: true,
-            title: Text('Sign Up', textScaleFactor: 3),
-            floating: true,
-            expandedHeight: 70,
-          ),
-          SliverList(
-            delegate: SliverChildListDelegate([
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8.0,
-                ),
+    return Material(
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        body: SingleChildScrollView(
+          child: SafeArea(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: Padding(
+                padding: myPadding,
                 child: Form(
+                  key: _formkey,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 10),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.email),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          hintText: 'Enter Email',
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          labelText: 'Email',
-                        ),
-                        validator: (value) {
-                          if (value!.isEmpty ||
-                              !value.contains('@') ||
-                              !value.contains('.com') ||
-                              value.length < 6) {
-                            return 'Please enter valid email';
-                          } else {
-                            return null;
-                          }
-                        },
-                      ),
-                      const SizedBox(height: 20),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.key_outlined),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          hintText: 'Enter Password',
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          labelText: 'Password',
-                        ),
-                        validator: (value) {
-                          if (value!.length < 8) {
-                            return 'Enter atleast 8 characters';
-                          } else {
-                            return null;
-                          }
-                        },
-                      ),
-                      const SizedBox(height: 20),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.key_outlined),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          hintText: 'Re-Enter Password',
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          labelText: 'Re-Enter Password',
-                        ),
-                        validator: (value) {
-                          if (value!.length < 8) {
-                            return 'Enter atleast 8 characters';
-                          } else {
-                            return null;
-                          }
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      GestureDetector(
-                        onTap: () {},
-                        child: Container(
-                          alignment: Alignment.center,
-                          width: MediaQuery.of(context).size.width / 3,
-                          height: 45,
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor,
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: const Text('Sign Up', textScaleFactor: 1.5),
+                      const Spacer(flex: 3),
+                      const CustomBackButton(),
+                      const Spacer(flex: 2),
+                      RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                                text: 'Sign Up\n',
+                                style:
+                                    Theme.of(context).textTheme.headlineLarge),
+                            TextSpan(
+                                text: 'Welcome Here !',
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall),
+                          ],
                         ),
                       ),
-                      const SizedBox(height: 10),
+                      const Spacer(flex: 1),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Text('Already have an account?'),
+                          const Text('If you already have an account.'),
                           TextButton(
-                            style: ButtonStyle(
-                              padding:
-                                  MaterialStateProperty.all(EdgeInsets.zero),
-                            ),
                             onPressed: () {
-                              Navigator.pushNamed(context, MyRoutes.loginpage);
+                              Navigator.pushNamed(context, MyRoutes.loginPage);
                             },
-                            child: const Text('Login'),
+                            child: const Text('Login Here !'),
                           ),
                         ],
-                      )
+                      ),
+                      const CustomTextField(text: 'Create Username'),
+                      const Spacer(flex: 1),
+                      const CustomTextField(text: 'Phone number'),
+                      const Spacer(flex: 1),
+                      const CustomTextField(text: 'Create Password'),
+                      const Spacer(flex: 1),
+                      const CustomTextField(text: 'Confirm password'),
+                      const Spacer(flex: 1),
+                      CustomButton(
+                          text: 'Register', nextpage: MyRoutes.loginPage),
+                      const Spacer(flex: 10),
                     ],
                   ),
                 ),
               ),
-            ]),
+            ),
           ),
-        ],
+        ),
       ),
     );
   }

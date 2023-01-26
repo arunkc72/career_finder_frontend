@@ -6,7 +6,7 @@ class MyThemes {
   static ThemeData get lighttheme {
     return ThemeData.light().copyWith(
       primaryColor: myPrimaryColor,
-      scaffoldBackgroundColor: Colors.white,
+      scaffoldBackgroundColor: mybackgroundcolor,
       appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white,
           iconTheme: IconThemeData(
@@ -20,9 +20,13 @@ class MyThemes {
       iconTheme: const IconThemeData(
         color: Colors.black,
       ),
+      textTheme: GoogleFonts.rubikTextTheme().copyWith().apply(
+            bodyColor: Colors.black,
+            displayColor: Colors.black,
+          ),
       colorScheme: const ColorScheme.light(
         primary: myPrimaryColor,
-        secondary: mySecondaryColor,
+        background: myDarkTextColor,
         error: Colors.red,
       ),
     );
@@ -39,10 +43,10 @@ class MyThemes {
           color: myPrimaryColor,
         ),
         iconTheme: const IconThemeData(color: myDarkTextColor),
-        textTheme: GoogleFonts.interTextTheme(const TextTheme()),
+        textTheme: GoogleFonts.rubikTextTheme().copyWith(),
         colorScheme: const ColorScheme.light(
           primary: myPrimaryColor,
-          secondary: mySecondaryColor,
+          background: myLightTextColor,
           error: Colors.red,
         ),
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(

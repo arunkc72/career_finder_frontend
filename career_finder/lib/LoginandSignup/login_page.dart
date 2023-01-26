@@ -1,6 +1,7 @@
+import 'package:career_finder/Utils/constants.dart';
 import 'package:career_finder/Utils/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -10,144 +11,222 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final facebookLogo = 'assets/logos/fblogo.svg';
+  final appleLogo = 'assets/logos/applelogo.svg';
+  final googleLogo = 'assets/logos/googlelogo.svg';
   bool showpassword = true;
-  final String loginpic = 'assets/svg/loginimage.svg';
   final _formkey = GlobalKey<FormState>();
   bool loginaccess = false;
+  validateform() async {
+    if (_formkey.currentState!.validate()) {
+      setState(() {
+        loginaccess = true;
+      });
+      await Future.delayed(
+        const Duration(seconds: 1),
+        () {},
+      );
+      await Navigator.pushNamed(context, MyRoutes.homePage);
+      setState(() {
+        loginaccess = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    validateform() async {
-      if (_formkey.currentState!.validate()) {
-        setState(() {
-          loginaccess = true;
-        });
-        await Future.delayed(
-          const Duration(seconds: 1),
-          () {},
-        );
-        await Navigator.pushNamed(context, MyRoutes.homepage);
-        setState(() {
-          loginaccess = false;
-        });
-      }
-    }
-
     var devicewidth = MediaQuery.of(context).size.width;
     return Material(
       child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 8.0,
-            ),
-            child: Form(
-              key: _formkey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 350,
-                    child: SvgPicture.asset(
-                      loginpic,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.email),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+        resizeToAvoidBottomInset: false,
+        body: SafeArea(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: Padding(
+              padding: myPadding,
+              child: Form(
+                key: _formkey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Spacer(flex: 5),
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                              text: 'Sign In\n',
+                              style: Theme.of(context).textTheme.headlineLarge),
+                          TextSpan(
+                              text: 'Welcome back !',
+                              style: Theme.of(context).textTheme.headlineSmall),
+                        ],
                       ),
-                      hintText: 'Enter Email',
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelText: 'Email',
                     ),
-                    validator: (value) {
-                      if (value!.isEmpty ||
-                          !value.contains('@') ||
-                          !value.contains('.com') ||
-                          value.length < 6) {
-                        return 'Please enter valid email';
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    obscureText: showpassword,
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.email),
-                      suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              showpassword = !showpassword;
-                            });
-                          },
-                          icon: Icon(
-                              showpassword ? Icons.lock : Icons.lock_open)),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      hintText: 'Enter Password',
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelText: 'Password',
-                    ),
-                    validator: (value) {
-                      if (value!.length < 8) {
-                        return 'Enter atleast 8 characters';
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: TextButton(
-                      onPressed: () {},
-                      child: const Text('Forgot Password ?',
-                          style:
-                              TextStyle(decoration: TextDecoration.underline)),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      validateform();
-                    },
-                    child: AnimatedContainer(
-                      duration: const Duration(seconds: 1),
-                      alignment: Alignment.center,
-                      width: loginaccess ? devicewidth / 6 : devicewidth / 2,
-                      height: 45,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: loginaccess
-                          ? Icon(Icons.done)
-                          : Text('Login', textScaleFactor: 1.5),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Text('Don\'t have an account?'),
-                      TextButton(
-                        style: ButtonStyle(
-                          padding: MaterialStateProperty.all(EdgeInsets.zero),
+                    const Spacer(flex: 1),
+                    Card(
+                      elevation: 10,
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                          fillColor: Colors.white,
+                          filled: true,
+                          labelText: 'Email or User name',
+                          border: UnderlineInputBorder(
+                            borderSide: BorderSide.none,
+                          ),
                         ),
-                        onPressed: () {
-                          Navigator.pushNamed(context, MyRoutes.signuppage);
+                        validator: (value) {
+                          if (value!.isEmpty ||
+                              !value.contains('@') ||
+                              !value.contains('.com') ||
+                              value.length < 6) {
+                            return 'Please enter valid email';
+                          } else {
+                            return null;
+                          }
                         },
-                        child: const Text('Register'),
                       ),
-                    ],
-                  )
-                ],
+                    ),
+                    const Spacer(
+                      flex: 1,
+                    ),
+                    Card(
+                      elevation: 10,
+                      child: TextFormField(
+                        obscureText: showpassword,
+                        decoration: InputDecoration(
+                          fillColor: Colors.white,
+                          filled: true,
+                          suffixIcon: TextButton(
+                            onPressed: () {
+                              setState(() {
+                                showpassword = !showpassword;
+                              });
+                            },
+                            child: Text(showpassword ? 'Show' : 'Hide'),
+                          ),
+                          border: UnderlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(10)),
+                          labelText: 'Password',
+                        ),
+                        validator: (value) {
+                          if (value!.length < 8) {
+                            return 'Enter atleast 8 characters';
+                          } else {
+                            return null;
+                          }
+                        },
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(
+                              context, MyRoutes.passwordRecovery);
+                        },
+                        child: const Text(
+                          'Forgot Password ?',
+                        ),
+                      ),
+                    ),
+                    const Spacer(
+                      flex: 1,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        validateform();
+                      },
+                      child: AnimatedContainer(
+                        duration: const Duration(seconds: 1),
+                        alignment: Alignment.center,
+                        width: devicewidth,
+                        height: 45,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: myPrimaryColor,
+                              offset: Offset(1, 3),
+                              blurRadius: 5,
+                              spreadRadius: 0,
+                            )
+                          ],
+                        ),
+                        child: loginaccess
+                            ? const CircularProgressIndicator(
+                                color: Colors.white,
+                                backgroundColor: Colors.black,
+                              )
+                            : const Text('Login',
+                                textScaleFactor: 1.5,
+                                style: TextStyle(color: Colors.white)),
+                      ),
+                    ),
+                    const Spacer(flex: 2),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text('Don\'t have an account?'),
+                        TextButton(
+                          style: ButtonStyle(
+                            padding: MaterialStateProperty.all(EdgeInsets.zero),
+                          ),
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, MyRoutes.verifyEmailPage);
+                          },
+                          child: const Text('Register here !'),
+                        ),
+                      ],
+                    ),
+                    const Spacer(flex: 1),
+                    SizedBox(
+                      width: double.infinity,
+                      child: Text('Or continue with',
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelLarge!
+                              .apply(color: Colors.black.withOpacity(0.5))),
+                    ),
+                    const Spacer(flex: 1),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          onPressed: () {},
+                          icon: Container(
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image:
+                                    DecorationImage(image: Svg(facebookLogo))),
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: Container(
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(image: Svg(appleLogo))),
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: Container(
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(image: Svg(googleLogo))),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Spacer(
+                      flex: 3,
+                    )
+                  ],
+                ),
               ),
             ),
           ),

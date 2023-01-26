@@ -14,7 +14,7 @@ class HomePage extends StatelessWidget {
       drawer: const MyDrawer(),
       appBar: const MyAppBar(title: 'Career Finder'),
       body: Container(
-        color: mySecondaryColor,
+        color: mybackgroundcolor,
       ),
       bottomNavigationBar: const MyBottomNavigationBar(),
     );
