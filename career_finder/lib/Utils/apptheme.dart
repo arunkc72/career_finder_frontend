@@ -6,7 +6,7 @@ class MyThemes {
   static ThemeData get lighttheme {
     return ThemeData.light().copyWith(
       primaryColor: myPrimaryColor,
-      scaffoldBackgroundColor: mybackgroundcolor,
+      scaffoldBackgroundColor: Colors.blue.shade50,
       appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white,
           iconTheme: IconThemeData(

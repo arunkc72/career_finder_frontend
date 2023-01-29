@@ -6,6 +6,7 @@ import 'package:career_finder/LoginandSignup/splash_page.dart';
 import 'package:career_finder/Utils/apptheme.dart';
 import 'package:career_finder/Utils/routes.dart';
 import 'package:career_finder/pages/Course/interest_page.dart';
+import 'package:career_finder/pages/University-College/question_page.dart';
 import 'package:career_finder/pages/home_page.dart';
 import 'package:career_finder/pages/ready_page.dart';
 import 'package:career_finder/pages/option_page.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: MyThemes.lighttheme,
-      initialRoute: MyRoutes.homePage,
+      initialRoute: '/abcd',
       routes: {
         MyRoutes.splashPage: (context) => const SplashScreen(),
         MyRoutes.loginPage: (context) => const LoginPage(),
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
         MyRoutes.interestPage: (context) => const InterestPage(),
         //home
         MyRoutes.homePage: (context) => const HomePage(),
+        '/abcd' : (context) => const CampusQuestion(),
       },
     );
   }

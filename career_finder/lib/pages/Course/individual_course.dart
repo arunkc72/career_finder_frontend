@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 import '../../Utils/constants.dart';
 
 class IndividualCourse extends StatelessWidget {
-  final String image;
-  final String course;
+  final String? image;
+  final String? course;
+  final String? university;
   final String description;
   const IndividualCourse(
-      {required this.image,
-      required this.course,
-      required this.description,
-      Key? key})
+      {this.image, this.course,this.university, required this.description, Key? key})
       : super(key: key);
 
   @override
@@ -55,7 +53,7 @@ class IndividualCourse extends StatelessWidget {
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(course,
+                              Text(course ?? university.toString(),
                                   style: Theme.of(context)
                                       .textTheme
                                       .headlineSmall),

@@ -2,11 +2,11 @@ import 'package:career_finder/Utils/bottomnavbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../Utils/appbar.dart';
-import 'College/college_recommendation.dart';
+import 'University-College/college_recommendation.dart';
 import 'Course/course_recommendation.dart';
 import 'Job/job_recommendation.dart';
 import 'Profile/profile_page.dart';
-import 'University/university_recommendation.dart';
+import 'University-College/university_recommendation.dart';
 
 final indexValueProvider = StateProvider<int>((ref) {
   return 0;

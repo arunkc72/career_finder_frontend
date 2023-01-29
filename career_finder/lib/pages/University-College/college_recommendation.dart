@@ -22,7 +22,7 @@ class CollegeRecommendation extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
-      children: [
+      children: const [
          SizedBox(
           height: 30,
           child: Text('Recommended College'),

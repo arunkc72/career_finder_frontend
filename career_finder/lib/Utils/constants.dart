@@ -18,8 +18,8 @@ const jobnav = 'assets/images/job_bottom_navigation.png';
 const universitynav = 'assets/images/university_bottom_navigation.png';
 const profilenav = 'assets/images/profile_bottom_navigation.png';
 //
-const nothingfound = 'assets/images/nothing_found.png';
-
+const nothingfound = 'assets/images/not_found.png';
+const australiaflag = 'assets/images/CountryFlag/australia.png';
 double mywidth(BuildContext context) {
   return MediaQuery.of(context).size.width;
 }
@@ -28,11 +28,18 @@ double myheight(BuildContext context) {
   return MediaQuery.of(context).size.width;
 }
 
+// for the default text of main headline
 TextStyle? myLargeTitle(BuildContext context) {
   return Theme.of(context).textTheme.titleLarge!.copyWith(
         fontWeight: FontWeight.bold,
       );
 }
+
+// for the default question page
+TextStyle? mytitlemedium(BuildContext context) {
+  return Theme.of(context).textTheme.titleMedium!.copyWith();
+}
+//
 
 const List<String> interest = [
   'Travel',

@@ -11,10 +11,10 @@ class JobRecommendation extends StatelessWidget {
       padding: myPadding,
       child: Column(
         children: [
-          SizedBox(height: 100),
+          const SizedBox(height: 100),
           Container(
-            padding: EdgeInsets.all(20),
-            decoration: BoxDecoration(
+            padding: const EdgeInsets.all(20),
+            decoration: const BoxDecoration(
               color: Colors.white,
             ),
             child: Row(
@@ -34,11 +34,11 @@ class JobRecommendation extends StatelessWidget {
                             elevation: 5,
                             backgroundColor: Colors.green.shade300),
                         onPressed: () {},
-                        icon: Icon(
+                        icon: const Icon(
                           CupertinoIcons.add_circled_solid,
                           color: Colors.blue,
                         ),
-                        label: Text('Add your preference')),
+                        label: const Text('Add your preference')),
                   ],
                 ),
                 Center(
