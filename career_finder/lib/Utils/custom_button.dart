@@ -6,7 +6,7 @@ import 'constants.dart';
 class CustomButton extends ConsumerWidget {
   final String? text;
   final String? nextpage;
-  const CustomButton({this.text, super.key, this.nextpage});
+  const CustomButton({this.text,  this.nextpage, super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(

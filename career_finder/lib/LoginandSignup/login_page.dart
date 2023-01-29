@@ -22,11 +22,10 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         loginaccess = true;
       });
-      await Future.delayed(
-        const Duration(seconds: 1),
-        () {},
-      );
-      await Navigator.pushNamed(context, MyRoutes.homePage);
+      await Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushNamed(context, MyRoutes.optionPage);
+      });
+
       setState(() {
         loginaccess = false;
       });

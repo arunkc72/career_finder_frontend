@@ -1,54 +1,57 @@
+import '../pages/home_page.dart';
 import '/Utils/constants.dart';
 import 'package:flutter/material.dart';
-class MyBottomNavigationBar extends StatefulWidget {
-  const MyBottomNavigationBar({super.key});
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-  @override
-  State<MyBottomNavigationBar> createState() => _MyBottomNavigationBarState();
-}
+class BottomNavBar extends ConsumerWidget {
+  const BottomNavBar({super.key});
 
-class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
-  int destination = 0;
-  @override
-  Widget build(BuildContext context) {
-    return NavigationBarTheme(
-      data: NavigationBarThemeData(
-          indicatorColor: myPrimaryColor,
-          indicatorShape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(40),
-          )),
-      child: NavigationBar(
-        height: 60,
-        onDestinationSelected: (value) {
-          setState(() {
-            destination = value;
-          });
-        },
-        selectedIndex: destination,
-        labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.school_outlined),
-            label: 'College',
-            selectedIcon: Icon(Icons.school),
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.work_outline),
-            label: 'Job',
-            selectedIcon: Icon(Icons.work),
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.favorite_outline),
-            label: 'Favorites',
-            selectedIcon: Icon(Icons.favorite),
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.settings_outlined),
-            label: 'Settings',
-            selectedIcon: Icon(Icons.settings),
-          ),
-        ],
+  void _updatevalue(WidgetRef ref, int val) {
+    ref.watch(indexValueProvider.notifier).update((state) => val);
+  }
+
+  _customnavdestinaton(String logoimage, String label) {
+    return NavigationDestination(
+      icon: Image.asset(
+        logoimage,
+        color: Colors.grey,
       ),
+      label: label,
+      selectedIcon: Image.asset(
+        logoimage,
+        color: Colors.black,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final value = ref.watch(indexValueProvider);
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: NavigationBarTheme(
+            data: const NavigationBarThemeData(
+                backgroundColor: Colors.white,
+                indicatorColor: mybackgroundcolor,
+                labelBehavior: NavigationDestinationLabelBehavior.alwaysShow),
+            child: NavigationBar(
+              height: 70,
+              selectedIndex: value,
+              onDestinationSelected: (value) {
+                _updatevalue(ref, value);
+              },
+              labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+              destinations: [
+                _customnavdestinaton(universitynav, 'University'),
+                _customnavdestinaton(coursenav, 'Course'),
+                _customnavdestinaton(jobnav, 'Job'),
+                _customnavdestinaton(collegenav, 'College'),
+                _customnavdestinaton(profilenav, 'Profile'),
+              ],
+            ),
+          )),
     );
   }
 }

@@ -1,9 +1,7 @@
-import 'package:career_finder/LoginandSignup/otp_form.dart';
 import 'package:career_finder/Utils/constants.dart';
 import 'package:career_finder/Utils/custom_backbotton.dart';
 import 'package:career_finder/Utils/custom_textfield.dart';
 import 'package:career_finder/Utils/routes.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../Utils/custom_button.dart';

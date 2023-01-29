@@ -1,4 +1,3 @@
-
 import 'package:career_finder/Utils/constants.dart';
 import 'package:career_finder/Utils/custom_backbotton.dart';
 import 'package:career_finder/Utils/custom_textfield.dart';
@@ -45,7 +44,7 @@ class _NewPasswordState extends State<NewPassword> {
             ),
             const Spacer(flex: 1),
             const CustomButton(
-              text: 'Login',
+              text: 'Reset Password',
             ),
             const Spacer(
               flex: 10,

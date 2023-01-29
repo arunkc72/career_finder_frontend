@@ -1,4 +1,4 @@
-import 'package:career_finder/pages/StartPages/study_page.dart';
+import 'package:career_finder/pages/option_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -21,7 +21,7 @@ class _ReadyPageState extends State<ReadyPage> {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const StudyPage(),
+            builder: (context) => const OptionPage(),
           ));
     });
   }
