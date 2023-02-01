@@ -1,13 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'package:career_finder/pages/home_page.dart';
+import 'package:career_finder/View/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../Utils/constants.dart';
-import '../../Utils/custom_backbotton.dart';
-import '../../models/criteria_selector.dart';
+import '../Utils/constants.dart';
+import '../Utils/custom_backbotton.dart';
+import '../../Model/criteria_selector.dart';
 import '../option_page.dart';
 
 final selectorNotifierProvider =
@@ -23,12 +23,21 @@ final gradeStateProvider = StateProvider<double>((ref) {
   return 0.0;
 });
 
+final countryStateProvider = StateProvider<String>((ref) {
+  return 'Australia';
+});
+
 class CampusQuestion extends ConsumerWidget {
   const CampusQuestion({super.key});
 
   _selectedgrade(WidgetRef ref, String grade) {
     double newgrade = double.parse(grade);
     ref.read(gradeStateProvider.notifier).update((state) => newgrade);
+  }
+
+  _selectedcountry(WidgetRef ref, dynamic country) {
+    String newcountry = country.toString();
+    ref.read(countryStateProvider.notifier).update((state) => newcountry);
   }
 
   @override
@@ -41,6 +50,8 @@ class CampusQuestion extends ConsumerWidget {
       'UK',
       'Denmark',
     ];
+    String selectedCountry = ref.watch(countryStateProvider);
+
     List<DropdownMenuItem> countrylist = List.generate(
       6,
       (index) => DropdownMenuItem(
@@ -136,9 +147,11 @@ class CampusQuestion extends ConsumerWidget {
                         size: 40,
                       ),
                       itemHeight: 60,
-                      value: country[0],
+                      value: selectedCountry,
                       items: countrylist,
-                      onChanged: (value) {}),
+                      onChanged: (value) {
+                        _selectedcountry(ref, value);
+                      }),
                 ),
               ),
               const SizedBox(height: 10),

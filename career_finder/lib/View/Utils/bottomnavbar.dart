@@ -1,7 +1,8 @@
-import '../pages/home_page.dart';
-import '/Utils/constants.dart';
+import '../home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'constants.dart';
 
 class BottomNavBar extends ConsumerWidget {
   const BottomNavBar({super.key});
@@ -28,7 +29,7 @@ class BottomNavBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final value = ref.watch(indexValueProvider);
     return Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
       child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
           child: NavigationBarTheme(

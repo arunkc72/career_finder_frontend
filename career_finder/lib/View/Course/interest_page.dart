@@ -1,6 +1,6 @@
-import 'package:career_finder/Utils/constants.dart';
-import 'package:career_finder/Utils/custom_backbotton.dart';
-import 'package:career_finder/pages/option_page.dart';
+import 'package:career_finder/View/Utils/constants.dart';
+import 'package:career_finder/View/Utils/custom_backbotton.dart';
+import 'package:career_finder/View/option_page.dart';
 import 'package:flutter/material.dart';
 
 class InterestPage extends StatelessWidget {

@@ -1,7 +1,7 @@
-import 'package:career_finder/pages/Course/individual_course.dart';
+import 'package:career_finder/View/Course/individual_course.dart';
 import 'package:flutter/material.dart';
 
-import '../../Utils/constants.dart';
+import '../Utils/constants.dart';
 
 class CourseRecommendation extends StatelessWidget {
   const CourseRecommendation({Key? key}) : super(key: key);

@@ -1,20 +1,27 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:career_finder/Utils/constants.dart';
-import 'package:career_finder/pages/Course/individual_course.dart';
+import 'package:career_finder/View/Utils/constants.dart';
+import 'package:career_finder/View/Course/individual_course.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 
-import '../../models/university_model.dart';
+import '../../Model/university_model.dart';
 
 final universityFutureProvider = FutureProvider<List<University>>((ref) async {
-  var body = jsonEncode({"global_score": 5, "enrollment": 1});
+  var body = jsonEncode({
+    "global_score": 5,
+    "enrollment": 1,
+    "expense": 0,
+    "country": "Australia",
+    "city": "Sydney",
+    "gpa": 3.8
+  });
   // var headers = {"Content-type": "application/json"};
   // var uri = Uri.parse('http://127.0.0.1:5000//universities');
   var response = await http.post(
-    Uri.parse('http://192.168.1.65:5000/universities'),
+    Uri.parse('http://192.168.1.66:5000/universities'),
     headers: {
       "Content-type": "application/json",
     },
@@ -37,7 +44,7 @@ class UniversityRecommendation extends ConsumerWidget {
       child: Column(
         children: [
           Container(
-            padding: EdgeInsets.only(top: 10),
+            padding: const EdgeInsets.only(top: 10),
             alignment: Alignment.topLeft,
             height: 30,
             child: Text('Recommended Universities',
@@ -56,8 +63,9 @@ class UniversityRecommendation extends ConsumerWidget {
                           MaterialPageRoute(builder: (context) {
                         return IndividualCourse(
                             image: '',
-                            university: data[index].University_Name.toString(),
-                            description: data[index].Description.toString());
+                            university: data[index].university_name.toString(),
+                            description:
+                                data[index].university_name.toString());
                       }));
                     },
                     child: Card(
@@ -82,13 +90,13 @@ class UniversityRecommendation extends ConsumerWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  data[index].University_Name.toString(),
+                                  data[index].university_name.toString(),
                                   style: mytitlemedium(context),
                                 ),
-                                Text(data[index].Country.toString()),
-                                Text(data[index].Rank_In_World.toString()),
-                                Text(data[index].Rank_In_World.toString()),
-                                Text(data[index].Enrollment.toString()),
+                                Text(data[index].country.toString()),
+                                Text(data[index].rank_in_world.toString()),
+                                Text(data[index].rank_in_world.toString()),
+                                Text(data[index].enrollment.toString()),
                               ],
                             ))
                           ],

@@ -1,7 +1,7 @@
-import 'package:career_finder/Utils/constants.dart';
-import 'package:career_finder/Utils/custom_backbotton.dart';
-import 'package:career_finder/Utils/custom_textfield.dart';
-import 'package:career_finder/Utils/routes.dart';
+import 'package:career_finder/View/Utils/constants.dart';
+import 'package:career_finder/View/Utils/custom_backbotton.dart';
+import 'package:career_finder/View/Utils/custom_textfield.dart';
+import 'package:career_finder/View/Utils/routes.dart';
 import 'package:flutter/material.dart';
 
 import '../Utils/custom_button.dart';

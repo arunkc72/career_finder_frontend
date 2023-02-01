@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:career_finder/LoginandSignup/otp_form.dart';
-import 'package:career_finder/Utils/constants.dart';
-import 'package:career_finder/Utils/custom_backbotton.dart';
-import 'package:career_finder/Utils/routes.dart';
+import 'package:career_finder/View/LoginandSignup/otp_form.dart';
+import 'package:career_finder/View/Utils/constants.dart';
+import 'package:career_finder/View/Utils/custom_backbotton.dart';
+import 'package:career_finder/View/Utils/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
