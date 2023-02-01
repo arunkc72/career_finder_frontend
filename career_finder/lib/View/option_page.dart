@@ -1,5 +1,6 @@
+import 'package:career_finder/View/Course/interest_page.dart';
+import 'package:career_finder/View/University-College/question_page.dart';
 import 'package:career_finder/View/Utils/constants.dart';
-import 'package:career_finder/View/Utils/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,11 +18,7 @@ class OptionPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Spacer(
-            flex: 4,
-          ),
-          const CustomSkipButton(),
-          const Spacer(
-            flex: 2,
+            flex: 7,
           ),
           Text('What are you looking for ?',
               style: Theme.of(context).textTheme.headlineSmall),
@@ -29,14 +26,14 @@ class OptionPage extends StatelessWidget {
             flex: 2,
           ),
           const CustomOption(
-              text: 'Course to Study', image: optioncourse, index: 1),
-          const Spacer(flex: 1),
-          const CustomOption(text: 'College', image: optioncollege, index: 3),
-          const Spacer(flex: 1),
-          const CustomOption(
               text: 'University', image: optionuniversity, index: 0),
           const Spacer(flex: 1),
+          const CustomOption(
+              text: 'Course to Study', image: optioncourse, index: 1),
+          const Spacer(flex: 1),
           const CustomOption(text: 'Placement', image: optionjob, index: 2),
+          const Spacer(flex: 1),
+          const CustomOption(text: 'College', image: optioncollege, index: 3),
           const Spacer(flex: 15),
         ],
       ),
@@ -85,8 +82,47 @@ class CustomOption extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () {
-        _updateindex(ref, index);
-        Navigator.pushNamed(context, MyRoutes.homePage);
+        switch (index) {
+          case 0:
+            _updateindex(ref, index);
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const CampusQuestion(
+                    college: false,
+                  ),
+                ));
+            break;
+          case 1:
+            _updateindex(ref, index);
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const InterestPage(),
+                ));
+
+            break;
+          case 2:
+            _updateindex(ref, index);
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const CampusQuestion(
+                    college: false,
+                  ),
+                ));
+            break;
+          case 3:
+            _updateindex(ref, index);
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const CampusQuestion(
+                    college: true,
+                  ),
+                ));
+            break;
+        }
       },
       child: Card(
         elevation: 10,

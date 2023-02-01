@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 const myPrimaryColor = Color(0xff0E387A);
 const mybackgroundcolor = Color(0xffF7F1E3);
@@ -39,28 +40,24 @@ TextStyle? myLargeTitle(BuildContext context) {
 TextStyle? mytitlemedium(BuildContext context) {
   return Theme.of(context).textTheme.titleMedium!.copyWith();
 }
-//
 
-const List<String> interest = [
-  'Travel',
-  'Fitness and health',
-  'Music',
-  'Food and cooking',
-  'Technology',
-  'Sports',
-  'Shopping',
-  'Reading',
-  'Photography',
-  'Movies and TV shows',
-  'Outdoor activities',
-  'Cars and vechiles',
-  'Fashion and beauty',
-  'Gaming',
-  'Social media and internet'
-];
-const List<String> course = [
-  'Artificial Intelligence',
-  'Computer Science',
-  'Biology and Biochemistry',
-  'Businesss Administration',
-];
+//
+final interestStateProvider = StateProvider<List<String>>((ref) {
+  return [
+    'Travel',
+    'Fitness and health',
+    'Music',
+    'Food and cooking',
+    'Technology',
+    'Sports',
+    'Shopping',
+    'Reading',
+    'Photography',
+    'Movies and TV shows',
+    'Outdoor activities',
+    'Cars and vechiles',
+    'Fashion and beauty',
+    'Gaming',
+    'Social media and internet'
+  ];
+});

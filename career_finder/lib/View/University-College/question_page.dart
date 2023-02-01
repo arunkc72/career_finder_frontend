@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'package:career_finder/Model/college_model.dart';
 import 'package:career_finder/View/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,11 +13,7 @@ import '../option_page.dart';
 
 final selectorNotifierProvider =
     StateNotifierProvider<SelectorNotifier, Selector>((ref) {
-  return SelectorNotifier(const Selector(
-    rank: 1,
-    enrollement: 1,
-    expensive: 1,
-  ));
+  return SelectorNotifier();
 });
 
 final gradeStateProvider = StateProvider<double>((ref) {
@@ -26,9 +23,13 @@ final gradeStateProvider = StateProvider<double>((ref) {
 final countryStateProvider = StateProvider<String>((ref) {
   return 'Australia';
 });
+final cityOptionProvider = StateProvider<int>((ref) {
+  return 1;
+});
 
 class CampusQuestion extends ConsumerWidget {
-  const CampusQuestion({super.key});
+  final bool college;
+  const CampusQuestion({super.key, required this.college});
 
   _selectedgrade(WidgetRef ref, String grade) {
     double newgrade = double.parse(grade);
@@ -38,6 +39,10 @@ class CampusQuestion extends ConsumerWidget {
   _selectedcountry(WidgetRef ref, dynamic country) {
     String newcountry = country.toString();
     ref.read(countryStateProvider.notifier).update((state) => newcountry);
+  }
+
+  _cityoption(WidgetRef ref, int index) {
+    ref.read(cityOptionProvider.notifier).update((state) => index);
   }
 
   @override
@@ -71,6 +76,7 @@ class CampusQuestion extends ConsumerWidget {
         ),
       ),
     );
+    int CityOption = ref.watch(cityOptionProvider);
     return Scaffold(
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(
@@ -106,7 +112,7 @@ class CampusQuestion extends ConsumerWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                'Enter our GPA in +2 ?',
+                'Enter our GPA in ${college ? 'high school' : '+2'}?',
                 style: mytitlemedium(context),
               ),
               Card(
@@ -133,37 +139,67 @@ class CampusQuestion extends ConsumerWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                'Which country university are you looking for?',
+                college
+                    ? 'Do you want your college to be in your city?'
+                    : 'Which country university are you looking for?',
                 style: mytitlemedium(context),
               ),
               const SizedBox(height: 10),
-              Card(
-                elevation: 10,
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton(
-                      isExpanded: true,
-                      icon: const Icon(
-                        Icons.keyboard_arrow_down,
-                        size: 40,
+              college
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        for (int i = 1; i <= 3; i++)
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: (CityOption == i)
+                                      ? myPrimaryColor
+                                      : Colors.white,
+                                  foregroundColor: (CityOption == i)
+                                      ? Colors.white
+                                      : Colors.black,
+                                  fixedSize: const Size(80, 50),
+                                  padding: EdgeInsets.zero),
+                              onPressed: () {
+                                _cityoption(ref, i);
+                              },
+                              child: (i == 1)
+                                  ? Text('Yes')
+                                  : (i == 2)
+                                      ? Text('No')
+                                      : Text(
+                                          'Not important',
+                                          textAlign: TextAlign.center,
+                                        ))
+                      ],
+                    )
+                  : Card(
+                      elevation: 10,
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton(
+                            isExpanded: true,
+                            icon: const Icon(
+                              Icons.keyboard_arrow_down,
+                              size: 40,
+                            ),
+                            itemHeight: 60,
+                            value: selectedCountry,
+                            items: countrylist,
+                            onChanged: (value) {
+                              _selectedcountry(ref, value);
+                            }),
                       ),
-                      itemHeight: 60,
-                      value: selectedCountry,
-                      items: countrylist,
-                      onChanged: (value) {
-                        _selectedcountry(ref, value);
-                      }),
-                ),
-              ),
+                    ),
               const SizedBox(height: 10),
               Text(
-                'Rank how high do you want your university global score to be ?',
+                'Rank how high do you want your  ${college ? 'College rank ' : 'university global score to be'} ?',
                 style: mytitlemedium(context),
               ),
               const SizedBox(height: 10),
               const CustomSelector(criteria: 'rank'),
               const SizedBox(height: 10),
               Text(
-                'Rank how expensive do you want your university to be ?',
+                'Rank how expensive do you want your  ${college ? 'college' : 'university'} to be ?',
                 style: mytitlemedium(context),
               ),
               const SizedBox(height: 10),
@@ -172,7 +208,7 @@ class CampusQuestion extends ConsumerWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                'Rank how high much enrollment do you want your university to have ?',
+                'Rank how high much enrollment do you want your ${college ? 'college' : 'university'} to have ?',
                 style: mytitlemedium(context),
               ),
               const SizedBox(height: 10),

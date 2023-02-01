@@ -1,37 +1,14 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:career_finder/View/Utils/constants.dart';
 import 'package:career_finder/View/Course/individual_course.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart' as http;
 
+import '../../Contoller/university_repository.dart';
 import '../../Model/university_model.dart';
 
-final universityFutureProvider = FutureProvider<List<University>>((ref) async {
-  var body = jsonEncode({
-    "global_score": 5,
-    "enrollment": 1,
-    "expense": 0,
-    "country": "Australia",
-    "city": "Sydney",
-    "gpa": 3.8
-  });
-  // var headers = {"Content-type": "application/json"};
-  // var uri = Uri.parse('http://127.0.0.1:5000//universities');
-  var response = await http.post(
-    Uri.parse('http://192.168.1.66:5000/universities'),
-    headers: {
-      "Content-type": "application/json",
-    },
-    body: body,
-  );
-  var decode = jsonDecode(response.body);
-  List<University> universitylist =
-      List.of(decode).map((e) => University.fromMap(e)).toList();
-  log('$universitylist');
-  return universitylist;
+final universityFutureProvider = FutureProvider<List<University>>((ref) {
+  var university = ref.watch(universityServiceProvider);
+  return university.postUniversity();
 });
 
 class UniversityRecommendation extends ConsumerWidget {

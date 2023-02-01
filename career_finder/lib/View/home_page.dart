@@ -9,7 +9,7 @@ import 'Profile/profile_page.dart';
 import 'University-College/university_recommendation.dart';
 
 final indexValueProvider = StateProvider<int>((ref) {
-  return 4;
+  return 1;
 });
 
 class HomePage extends ConsumerWidget {

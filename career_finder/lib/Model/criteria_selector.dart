@@ -20,7 +20,9 @@ class Selector {
 }
 
 class SelectorNotifier extends StateNotifier<Selector> {
-  SelectorNotifier(super.state);
+  SelectorNotifier():super(const Selector(
+    rank: 1,enrollement: 1,expensive: 1
+  ));
   void updaterank(int value) {
     state = state.copyWith(
       rank: value,

@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: MyThemes.lighttheme,
-      initialRoute: MyRoutes.homePage,
+      initialRoute: MyRoutes.optionPage,
       routes: {
         MyRoutes.splashPage: (context) => const SplashScreen(),
         MyRoutes.loginPage: (context) => const LoginPage(),
@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         MyRoutes.interestPage: (context) => const InterestPage(),
         //home
         MyRoutes.homePage: (context) => const HomePage(),
-        '/abcd' : (context) => const ProfilePage(),
+        '/abcd': (context) => const ProfilePage(),
       },
     );
   }
