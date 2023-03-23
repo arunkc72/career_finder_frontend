@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'package:career_finder/Model/college_model.dart';
 import 'package:career_finder/View/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -76,7 +75,7 @@ class CampusQuestion extends ConsumerWidget {
         ),
       ),
     );
-    int CityOption = ref.watch(cityOptionProvider);
+    int cityOption = ref.watch(cityOptionProvider);
     return Scaffold(
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(
@@ -152,10 +151,10 @@ class CampusQuestion extends ConsumerWidget {
                         for (int i = 1; i <= 3; i++)
                           ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                  backgroundColor: (CityOption == i)
+                                  backgroundColor: (cityOption == i)
                                       ? myPrimaryColor
                                       : Colors.white,
-                                  foregroundColor: (CityOption == i)
+                                  foregroundColor: (cityOption == i)
                                       ? Colors.white
                                       : Colors.black,
                                   fixedSize: const Size(80, 50),
@@ -164,10 +163,10 @@ class CampusQuestion extends ConsumerWidget {
                                 _cityoption(ref, i);
                               },
                               child: (i == 1)
-                                  ? Text('Yes')
+                                  ? const Text('Yes')
                                   : (i == 2)
-                                      ? Text('No')
-                                      : Text(
+                                      ? const Text('No')
+                                      : const Text(
                                           'Not important',
                                           textAlign: TextAlign.center,
                                         ))

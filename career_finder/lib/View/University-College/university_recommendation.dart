@@ -1,12 +1,13 @@
 import 'package:career_finder/View/Utils/constants.dart';
-import 'package:career_finder/View/Course/individual_course.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../Contoller/university_repository.dart';
 import '../../Model/university_model.dart';
+import 'individual_page.dart';
 
-final universityFutureProvider = FutureProvider<List<University>>((ref) {
+final universityFutureProvider = FutureProvider<List<University>>((ref) async{
   var university = ref.watch(universityServiceProvider);
   return university.postUniversity();
 });
@@ -38,11 +39,15 @@ class UniversityRecommendation extends ConsumerWidget {
                     onTap: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
-                        return IndividualCourse(
+                        return IndividualPage(
                             image: '',
                             university: data[index].university_name.toString(),
-                            description:
-                                data[index].university_name.toString());
+                            country: data[index].country.toString(),
+                            city: data[index].city.toString(),
+                            enrollment: data[index].enrollment.toString(),
+                            globalScore: data[index].global_Score.toString(),
+                            worldRank: data[index].rank_in_world.toString(),
+                            description: data[index].description.toString());
                       }));
                     },
                     child: Card(
@@ -58,10 +63,9 @@ class UniversityRecommendation extends ConsumerWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            const Expanded(
-                                child: Placeholder(
-                              color: myPrimaryColor,
-                            )),
+                            Expanded(
+                                child: SvgPicture.network(
+                                    'https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg')),
                             Expanded(
                                 child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,7 +74,8 @@ class UniversityRecommendation extends ConsumerWidget {
                                   data[index].university_name.toString(),
                                   style: mytitlemedium(context),
                                 ),
-                                Text(data[index].country.toString()),
+                                Text(
+                                    '${data[index].city.toString()},${data[index].country.toString()}'),
                                 Text(data[index].rank_in_world.toString()),
                                 Text(data[index].rank_in_world.toString()),
                                 Text(data[index].enrollment.toString()),
@@ -88,7 +93,7 @@ class UniversityRecommendation extends ConsumerWidget {
               return Text('$error');
             },
             loading: () {
-              return const CircularProgressIndicator();
+              return const Center(child: CircularProgressIndicator());
             },
           ),
         ],

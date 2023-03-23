@@ -1,4 +1,5 @@
 import 'package:career_finder/View/Utils/constants.dart';
+import 'package:career_finder/View/Utils/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,9 @@ class ProfilePage extends StatelessWidget {
             : Text(subtitle.toString(),
                 style: TextStyle(color: Colors.black.withOpacity(0.5))),
         trailing: const Icon(CupertinoIcons.forward),
-        onTap: () {},
+        onTap: () {
+          Navigator.pushNamed(context, MyRoutes.loginPage);
+        },
         splashColor: myPrimaryColor.withOpacity(0.2),
         tileColor: Colors.white,
         visualDensity: const VisualDensity(vertical: -3),

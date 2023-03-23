@@ -8,7 +8,11 @@ class IndividualCourse extends StatelessWidget {
   final String? university;
   final String description;
   const IndividualCourse(
-      {this.image, this.course,this.university, required this.description, Key? key})
+      {this.image,
+      this.course,
+      this.university,
+      required this.description,
+      Key? key})
       : super(key: key);
 
   @override

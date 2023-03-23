@@ -21,7 +21,7 @@ class UniversityService {
     // var headers = {"Content-type": "application/json"};
     // var uri = Uri.parse('http://127.0.0.1:5000//universities');
     var response = await http.post(
-      Uri.parse('http://192.168.1.66:5000/universities'),
+      Uri.parse('https://careerfinderapi.onrender.com/recommendUniversities'),
       headers: {
         "Content-type": "application/json",
       },

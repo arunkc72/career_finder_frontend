@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:career_finder/View/Course/individual_course.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -10,10 +11,12 @@ final interestProvider = StateProvider<int>((ref) {
 });
 
 final courseFutureProvider = FutureProvider<List>((ref) async {
-  int interest=ref.watch(interestProvider);
-  var body = jsonEncode({'interest': '$interest'});
+  int interest = ref.watch(interestProvider);
+  var body = jsonEncode({
+    "interest": ["1", "2", "3"]
+  });
   var response = await http.post(
-    Uri.parse('http://192.168.1.66:5000/recommendSubject'),
+    Uri.parse('https://careerfinderapi.onrender.com/recommendSubject'),
     headers: {
       "Content-type": "application/json",
     },
@@ -24,6 +27,7 @@ final courseFutureProvider = FutureProvider<List>((ref) async {
   for (var sub in decode) {
     subjects.add(sub as Map<String, dynamic>);
   }
+  
   return subjects;
 });
 
