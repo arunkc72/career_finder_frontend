@@ -18,7 +18,7 @@ class ProfilePage extends StatelessWidget {
                 style: TextStyle(color: Colors.black.withOpacity(0.5))),
         trailing: const Icon(CupertinoIcons.forward),
         onTap: () {},
-        splashColor: myPrimaryColor.withOpacity(0.2),
+        // splashColor: myPrimaryColor.withOpacity(0.2),
         tileColor: Colors.white,
         visualDensity: const VisualDensity(vertical: -3),
       );

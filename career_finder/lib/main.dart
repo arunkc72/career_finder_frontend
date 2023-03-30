@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'View/LoginandSignup/password_recovery.dart';
 import 'View/LoginandSignup/verify_email.dart';
+import 'View/test.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -27,8 +28,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: MyThemes.lighttheme,
-      initialRoute: MyRoutes.optionPage,
+      initialRoute: MyRoutes.test,
       routes: {
+        MyRoutes.test: (context) => const Test(),
         MyRoutes.splashPage: (context) => const SplashScreen(),
         MyRoutes.loginPage: (context) => const LoginPage(),
         MyRoutes.signupPage: (context) => const SignupPage(),
