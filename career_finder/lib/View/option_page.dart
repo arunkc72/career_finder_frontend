@@ -51,9 +51,9 @@ class CustomSkipButton extends StatelessWidget {
     return Container(
       alignment: Alignment.centerRight,
       child: TextButton(
-        child: Row(
+        child: const Row(
           mainAxisSize: MainAxisSize.min,
-          children: const [
+          children: [
             Text('Skip', textScaleFactor: 1.5),
             Icon(CupertinoIcons.forward),
           ],

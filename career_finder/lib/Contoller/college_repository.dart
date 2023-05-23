@@ -11,19 +11,18 @@ final collegeServiceProvider = Provider<CollegeService>((ref) {
 
 class CollegeService {
   Future<List<College>> postcollege() async {
-    var body = jsonEncode(        {
-                    "rank":2,
-                    "enrollment" :"20,000",
-                    "expense":0,
-                    "city":"Pokhara",
-                    "gpa":3.8,
-                    "address":"Lamachaur, Pokhara"
-                }
-            );
+    var body = jsonEncode({
+      "rank": 2,
+      "enrollment": "20,000",
+      "expense": 0,
+      "city": "Pokhara",
+      "gpa": 3.8,
+      "address": "Lamachaur, Pokhara"
+    });
     // var headers = {"Content-type": "application/json"};
     // var uri = Uri.parse('http://127.0.0.1:5000//universities');
     var response = await http.post(
-      Uri.parse('https://careerfinderapi.onrender.com/recommendCollege'),
+      Uri.parse('http://192.168.1.70:5000/recommendCollege'),
       headers: {
         "Content-type": "application/json",
       },

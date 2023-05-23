@@ -80,27 +80,27 @@ class IndividualPage extends StatelessWidget {
                               RichText(
                                   text: TextSpan(
                                       text: 'World Rank : ',
-                                      style: TextStyle(color: Colors.black),
+                                      style: const TextStyle(color: Colors.black),
                                       children: [
                                     TextSpan(
                                       text: '$worldRank',
-                                      style: TextStyle(color: Colors.green),
+                                      style: const TextStyle(color: Colors.green),
                                     ),
                                   ])),
                               RichText(
                                   text: TextSpan(
                                       text: 'Global Score : ',
-                                      style: TextStyle(color: Colors.black),
+                                      style: const TextStyle(color: Colors.black),
                                       children: [
                                     TextSpan(
                                       text: '$globalScore',
-                                      style: TextStyle(color: Colors.green),
+                                      style: const TextStyle(color: Colors.green),
                                     ),
                                   ])),
                               RichText(
                                   text: TextSpan(
                                       text: 'Enrollment : ',
-                                      style: TextStyle(color: Colors.black),
+                                      style: const TextStyle(color: Colors.black),
                                       children: [
                                     TextSpan(
                                       text: '$enrollment',

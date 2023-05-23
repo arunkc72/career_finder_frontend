@@ -102,9 +102,9 @@ class CampusQuestion extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 50),
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
+                children: [
                   CustomBackButton(),
                   CustomSkipButton(),
                 ],
