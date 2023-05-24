@@ -47,7 +47,7 @@ class _ReadyPageState extends State<ReadyPage> {
                     child: RichText(
                         text: TextSpan(children: [
                       TextSpan(
-                          text: 'Welcome!',
+                          text: 'Wlcome!',
                           style: Theme.of(context)
                               .textTheme
                               .displaySmall!
