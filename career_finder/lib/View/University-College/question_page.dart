@@ -67,7 +67,7 @@ class CampusQuestion extends ConsumerWidget {
             Text(country[index].toString()),
             const SizedBox(width: 10),
             Image.asset(
-              australiaflag,
+              optionuniversity,
               height: 40,
               width: 40,
             ),

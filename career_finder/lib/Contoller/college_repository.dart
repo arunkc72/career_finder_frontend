@@ -32,7 +32,6 @@ class CollegeService {
     var decode = jsonDecode(response.body);
     List<College> collegelist =
         List.of(decode).map((e) => College.fromMap(e)).toList();
-    log(collegelist.toString());
     return collegelist;
   }
 }

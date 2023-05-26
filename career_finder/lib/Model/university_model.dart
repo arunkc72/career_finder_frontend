@@ -2,133 +2,154 @@
 import 'dart:convert';
 
 class University {
-  final String? university_link;
-  final String? picture_url;
-  final String? university_name;
+   final String? University_link;
+  final String? Picture_Url;
+  final String? University_Name;
   final String? nation_flag_picture;
-  final String? country;
-  final String? city;
-  final String? rank_in_world;
-  final String? description;
-  final String? global_Score;
-  final double? enrollment;
+  final String? Country;
+  final String? City;
+  final String? Rank_In_World;
+  final String? Description;
+  final double? Global_Score;
+  final String? Enrollment;
+  final double? country_latitude;
+  final double? country_longitude;
+  final double? city_latitude;
+  final double? city_longitude;
   University({
-    this.university_link,
-    this.picture_url,
-    this.university_name,
+    this.University_link,
+    this.Picture_Url,
+    this.University_Name,
     this.nation_flag_picture,
-    this.country,
-    this.city,
-    this.rank_in_world,
-    this.description,
-    this.global_Score,
-    this.enrollment,
+    this.Country,
+    this.City,
+    this.Rank_In_World,
+    this.Description,
+    this.Global_Score,
+    this.Enrollment,
+    this.country_latitude,
+    this.country_longitude,
+    this.city_latitude,
+    this.city_longitude,
   });
 
   University copyWith({
-    String? university_link,
-    String? picture_url,
-    String? university_name,
+    String? University_link,
+    String? Picture_Url,
+    String? University_Name,
     String? nation_flag_picture,
-    String? country,
-    String? city,
-    String? rank_in_world,
-    String? description,
-    String? global_Score,
-    double? enrollment,
+    String? Country,
+    String? City,
+    String? Rank_In_World,
+    String? Description,
+    double? Global_Score,
+    String? Enrollment,
+    double? country_latitude,
+    double? country_longitude,
+    double? city_latitude,
+    double? city_longitude,
   }) {
     return University(
-      university_link: university_link ?? this.university_link,
-      picture_url: picture_url ?? this.picture_url,
-      university_name: university_name ?? this.university_name,
+      University_link: University_link ?? this.University_link,
+      Picture_Url: Picture_Url ?? this.Picture_Url,
+      University_Name: University_Name ?? this.University_Name,
       nation_flag_picture: nation_flag_picture ?? this.nation_flag_picture,
-      country: country ?? this.country,
-      city: city ?? this.city,
-      rank_in_world: rank_in_world ?? this.rank_in_world,
-      description: description ?? this.description,
-      global_Score: global_Score ?? this.global_Score,
-      enrollment: enrollment ?? this.enrollment,
+      Country: Country ?? this.Country,
+      City: City ?? this.City,
+      Rank_In_World: Rank_In_World ?? this.Rank_In_World,
+      Description: Description ?? this.Description,
+      Global_Score: Global_Score ?? this.Global_Score,
+      Enrollment: Enrollment ?? this.Enrollment,
+      country_latitude: country_latitude ?? this.country_latitude,
+      country_longitude: country_longitude ?? this.country_longitude,
+      city_latitude: city_latitude ?? this.city_latitude,
+      city_longitude: city_longitude ?? this.city_longitude,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'university_link': university_link,
-      'picture_url': picture_url,
-      'university_name': university_name,
+      'University_link': University_link,
+      'Picture_Url': Picture_Url,
+      'University_Name': University_Name,
       'nation_flag_picture': nation_flag_picture,
-      'country': country,
-      'city': city,
-      'rank_in_world': rank_in_world,
-      'description': description,
-      'global_Score': global_Score,
-      'enrollment': enrollment,
+      'Country': Country,
+      'City': City,
+      'Rank_In_World': Rank_In_World,
+      'Description': Description,
+      'Global_Score': Global_Score,
+      'Enrollment': Enrollment,
+      'country_latitude': country_latitude,
+      'country_longitude': country_longitude,
+      'city_latitude': city_latitude,
+      'city_longitude': city_longitude,
     };
   }
 
   factory University.fromMap(Map<String, dynamic> map) {
     return University(
-      university_link: map['university_link'] != null
-          ? map['university_link'] as String
-          : null,
-      picture_url:
-          map['picture_url'] != null ? map['picture_url'] as String : null,
-      university_name: map['university_name'] != null
-          ? map['university_name'] as String
-          : null,
-      nation_flag_picture: map['nation_flag_picture'] != null
-          ? map['nation_flag_picture'] as String
-          : null,
-      country: map['country'] != null ? map['country'] as String : null,
-      city: map['city'] != null ? map['city'] as String : null,
-      rank_in_world:
-          map['rank_in_world'] != null ? map['rank_in_world'] as String : null,
-      description:
-          map['description'] != null ? map['description'] as String : null,
-      global_Score:
-          map['global_Score'] != null ? map['global_Score'] as String : null,
-      enrollment:
-          map['enrollment'] != null ? map['enrollment'] as double : null,
+      University_link: map['University_link'] != null ? map['University_link'] as String : null,
+      Picture_Url: map['Picture_Url'] != null ? map['Picture_Url'] as String : null,
+      University_Name: map['University_Name'] != null ? map['University_Name'] as String : null,
+      nation_flag_picture: map['nation_flag_picture'] != null ? map['nation_flag_picture'] as String : null,
+      Country: map['Country'] != null ? map['Country'] as String : null,
+      City: map['City'] != null ? map['City'] as String : null,
+      Rank_In_World: map['Rank_In_World'] != null ? map['Rank_In_World'] as String : null,
+      Description: map['Description'] != null ? map['Description'] as String : null,
+      Global_Score: map['Global_Score'] != null ? map['Global_Score'] as double : null,
+      Enrollment: map['Enrollment'] != null ? map['Enrollment'] as String : null,
+      country_latitude: map['country_latitude'] != null ? map['country_latitude'] as double : null,
+      country_longitude: map['country_longitude'] != null ? map['country_longitude'] as double : null,
+      city_latitude: map['city_latitude'] != null ? map['city_latitude'] as double : null,
+      city_longitude: map['city_longitude'] != null ? map['city_longitude'] as double : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory University.fromJson(String source) =>
-      University.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory University.fromJson(String source) => University.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
-    return 'University(university_link: $university_link, picture_url: $picture_url, university_name: $university_name, nation_flag_picture: $nation_flag_picture, country: $country, city: $city, rank_in_world: $rank_in_world, description: $description, global_Score: $global_Score, enrollment: $enrollment)';
+    return 'University(University_link: $University_link, Picture_Url: $Picture_Url, University_Name: $University_Name, nation_flag_picture: $nation_flag_picture, Country: $Country, City: $City, Rank_In_World: $Rank_In_World, Description: $Description, Global_Score: $Global_Score, Enrollment: $Enrollment, country_latitude: $country_latitude, country_longitude: $country_longitude, city_latitude: $city_latitude, city_longitude: $city_longitude)';
   }
 
   @override
   bool operator ==(covariant University other) {
     if (identical(this, other)) return true;
-
-    return other.university_link == university_link &&
-        other.picture_url == picture_url &&
-        other.university_name == university_name &&
-        other.nation_flag_picture == nation_flag_picture &&
-        other.country == country &&
-        other.city == city &&
-        other.rank_in_world == rank_in_world &&
-        other.description == description &&
-        other.global_Score == global_Score &&
-        other.enrollment == enrollment;
+  
+    return 
+      other.University_link == University_link &&
+      other.Picture_Url == Picture_Url &&
+      other.University_Name == University_Name &&
+      other.nation_flag_picture == nation_flag_picture &&
+      other.Country == Country &&
+      other.City == City &&
+      other.Rank_In_World == Rank_In_World &&
+      other.Description == Description &&
+      other.Global_Score == Global_Score &&
+      other.Enrollment == Enrollment &&
+      other.country_latitude == country_latitude &&
+      other.country_longitude == country_longitude &&
+      other.city_latitude == city_latitude &&
+      other.city_longitude == city_longitude;
   }
 
   @override
   int get hashCode {
-    return university_link.hashCode ^
-        picture_url.hashCode ^
-        university_name.hashCode ^
-        nation_flag_picture.hashCode ^
-        country.hashCode ^
-        city.hashCode ^
-        rank_in_world.hashCode ^
-        description.hashCode ^
-        global_Score.hashCode ^
-        enrollment.hashCode;
+    return University_link.hashCode ^
+      Picture_Url.hashCode ^
+      University_Name.hashCode ^
+      nation_flag_picture.hashCode ^
+      Country.hashCode ^
+      City.hashCode ^
+      Rank_In_World.hashCode ^
+      Description.hashCode ^
+      Global_Score.hashCode ^
+      Enrollment.hashCode ^
+      country_latitude.hashCode ^
+      country_longitude.hashCode ^
+      city_latitude.hashCode ^
+      city_longitude.hashCode;
   }
 }

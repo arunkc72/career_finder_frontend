@@ -16,9 +16,39 @@ class _LoginPageState extends State<LoginPage> {
   final googleLogo = 'assets/logos/googlelogo.svg';
   bool showpassword = true;
   final _formkey = GlobalKey<FormState>();
+  final _emailKey = GlobalKey<FormFieldState>();
+  final _passwordKey = GlobalKey<FormFieldState>();
+  String? _errorEmail;
+  String? _errorPassword;
   bool loginaccess = false;
-  validateform() async {
-    if (_formkey.currentState!.validate()) {
+  void validateform() async {
+    setState(() {
+      _errorEmail = null;
+      _errorPassword = null;
+    });
+    loginaccess = true;
+
+    final emailValue = _emailKey.currentState!.value;
+    final passwordValue = _passwordKey.currentState!.value;
+
+    if (emailValue.isEmpty ||
+        !emailValue.contains('@') ||
+        !emailValue.contains('.com') ||
+        emailValue.length < 6) {
+      setState(() {
+        _errorEmail = 'Please enter valid email';
+      });
+      loginaccess = false;
+    }
+
+    if (passwordValue.isEmpty || passwordValue.length < 8) {
+      setState(() {
+        _errorPassword = 'Please enter valid password';
+      });
+      loginaccess = false;
+    }
+
+    if (loginaccess) {
       setState(() {
         loginaccess = true;
       });
@@ -65,32 +95,40 @@ class _LoginPageState extends State<LoginPage> {
                     Card(
                       elevation: 10,
                       child: TextFormField(
+                        key: _emailKey,
+                        autovalidateMode: AutovalidateMode.disabled,
                         decoration: const InputDecoration(
                           fillColor: Colors.white,
                           filled: true,
                           labelText: 'Email or User name',
-                          border: UnderlineInputBorder(
-                            borderSide: BorderSide.none,
-                          ),
+                          border:
+                              UnderlineInputBorder(borderSide: BorderSide.none),
                         ),
                         validator: (value) {
                           if (value!.isEmpty ||
                               !value.contains('@') ||
                               !value.contains('.com') ||
                               value.length < 6) {
-                            return 'Please enter valid email';
+                            return null;
                           } else {
                             return null;
                           }
                         },
                       ),
                     ),
+                    if (_errorEmail != null)
+                      Text(
+                        _errorEmail!,
+                        style: const TextStyle(color: Colors.red),
+                      ),
                     const Spacer(
                       flex: 1,
                     ),
                     Card(
                       elevation: 10,
                       child: TextFormField(
+                        key: _passwordKey,
+                        autovalidateMode: AutovalidateMode.disabled,
                         obscureText: showpassword,
                         decoration: InputDecoration(
                           fillColor: Colors.white,
@@ -110,13 +148,18 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         validator: (value) {
                           if (value!.length < 8) {
-                            return 'Enter atleast 8 characters';
+                            return null;
                           } else {
                             return null;
                           }
                         },
                       ),
                     ),
+                    if (_errorPassword != null)
+                      Text(
+                        _errorPassword!,
+                        style: const TextStyle(color: Colors.red),
+                      ),
                     Align(
                       alignment: Alignment.topRight,
                       child: TextButton(

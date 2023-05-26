@@ -14,9 +14,11 @@ class UniversityService {
       "global_score": 5,
       "enrollment": 1,
       "expense": 0,
+      "course": "Microbiology",
       "country": "Australia",
       "city": "Sydney",
-      "gpa": 3.8
+      "gpa": 3.8,
+      "rank": 1
     });
     // var headers = {"Content-type": "application/json"};
     // var uri = Uri.parse('http://127.0.0.1:5000//universities');

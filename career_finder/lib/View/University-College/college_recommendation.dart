@@ -40,9 +40,9 @@ class CollegeRecommendation extends ConsumerWidget {
                       return IndividualPage(
                           image: '',
                           university: data[index].college_name.toString(),
-                          country: data[index].address.toString(),
-                          city: data[index].city.toString(),
-                          description: data[index].discussion.toString());
+                          country: data[index].college_address.toString(),
+                          city: data[index].college_city_name.toString(),
+                          description: data[index].college_city_name.toString());
                     }));
                   },
                   child: Card(
@@ -70,10 +70,10 @@ class CollegeRecommendation extends ConsumerWidget {
                                 style: mytitlemedium(context),
                               ),
                               Text(
-                                  '${data[index].city.toString()},${data[index].address.toString()}'),
-                              Text(data[index].college_link.toString()),
-                              Text(data[index].contact_details.toString()),
-                              Text(data[index].course_list.toString()),
+                                  '${data[index].college_city_name.toString()},${data[index].college_address.toString()}'),
+                              Text(data[index].college_address_longitude.toString()),
+                              Text(data[index].college_address_longitude.toString()),
+                              Text(data[index].subject1.toString()),
                             ],
                           ))
                         ],

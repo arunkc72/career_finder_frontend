@@ -20,7 +20,7 @@ const universitynav = 'assets/images/university_bottom_navigation.png';
 const profilenav = 'assets/images/profile_bottom_navigation.png';
 //
 const nothingfound = 'assets/images/not_found.png';
-const australiaflag = 'assets/images/CountryFlag/australia.png';
+const australiaflag = 'assets/images/australia.png';
 double mywidth(BuildContext context) {
   return MediaQuery.of(context).size.width;
 }
