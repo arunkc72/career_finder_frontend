@@ -6,13 +6,16 @@ import 'constants.dart';
 class CustomButton extends ConsumerWidget {
   final String? text;
   final String? nextpage;
-  const CustomButton({this.text,  this.nextpage, super.key});
+  final VoidCallback? ontap;
+  const CustomButton({this.text, this.nextpage, this.ontap, super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, '$nextpage');
-      },
+      onTap: (ontap == null)
+          ? () {
+              if (nextpage != null) Navigator.pushNamed(context, '$nextpage');
+            }
+          : ontap,
       child: AnimatedContainer(
         duration: const Duration(seconds: 1),
         alignment: Alignment.center,

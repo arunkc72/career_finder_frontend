@@ -3,14 +3,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CustomTextField extends ConsumerWidget {
   final String? text;
+  final int? index;
+  final TextEditingController? controller;
 
-  const CustomTextField({this.text, super.key});
+  const CustomTextField({this.text, super.key,this.index,this.controller});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {  
     return Card(
       elevation: 10,
       child: TextFormField(
+        controller: controller,
+        keyboardType:
+            (index == 1) ? TextInputType.phone : TextInputType.text,
         decoration: InputDecoration(
           fillColor: Colors.white,
           filled: true,
@@ -20,13 +25,6 @@ class CustomTextField extends ConsumerWidget {
             borderRadius: BorderRadius.circular(10),
           ),
         ),
-        validator: (value) {
-          if (value!.isEmpty) {
-            return 'Please enter valid $text';
-          } else {
-            return null;
-          }
-        },
       ),
     );
   }
