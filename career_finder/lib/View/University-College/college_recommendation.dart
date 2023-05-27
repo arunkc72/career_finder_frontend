@@ -1,7 +1,6 @@
 import 'package:career_finder/Model/college_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../Contoller/college_repository.dart';
 import '../Utils/constants.dart';

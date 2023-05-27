@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:career_finder/View/Utils/constants.dart';
 import 'package:career_finder/View/Utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -41,17 +44,29 @@ class _LoginPageState extends State<LoginPage> {
       loginaccess = false;
     }
 
-    if (passwordValue.isEmpty || passwordValue.length < 8) {
+    if (passwordValue.isEmpty || passwordValue.length < 6) {
       setState(() {
         _errorPassword = 'Please enter valid password';
       });
       loginaccess = false;
     }
+    final url = Uri.parse('http://192.168.1.70:3000/auth/login');
+    final headers = {'Content-Type': 'application/json'};
+    final response = await http.post(url,
+        headers: headers,
+        body: jsonEncode({"email": emailValue, "password": passwordValue}));
 
-    if (loginaccess) {
+    if (response.statusCode == 200) {
+      print('successfully login');
+    } else {
       setState(() {
-        loginaccess = true;
+        loginaccess = false;
       });
+      // Login failed, handle the error response
+      print('Login failed. Error: ${response.statusCode}');
+    }
+    if (loginaccess) {
+     
       await Future.delayed(const Duration(seconds: 1), () {
         Navigator.pushNamed(context, MyRoutes.optionPage);
       });

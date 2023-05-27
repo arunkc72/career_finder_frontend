@@ -1,12 +1,43 @@
+import 'dart:convert';
+
 import 'package:career_finder/View/Utils/constants.dart';
 import 'package:career_finder/View/Utils/custom_backbotton.dart';
 import 'package:career_finder/View/Utils/custom_button.dart';
-import 'package:career_finder/View/Utils/custom_textfield.dart';
 import 'package:career_finder/View/Utils/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
 
-class VerifyEmail extends StatelessWidget {
-  const VerifyEmail({Key? key}) : super(key: key);
+final emailStateProvider = StateProvider<String>((ref) {
+  return '';
+});
+
+class VerifyEmail extends ConsumerStatefulWidget {
+  const VerifyEmail({super.key});
+
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _VerifyEmailState();
+}
+
+class _VerifyEmailState extends ConsumerState<VerifyEmail> {
+  updateEmail(String email, WidgetRef ref) {
+    ref.read(emailStateProvider.notifier).update((state) => email);
+  }
+
+  sendOtp(BuildContext context) async {
+    final url = Uri.parse('http://192.168.1.70:3000/otp/generateOTP');
+    final headers = {'Content-Type': 'application/json'};
+    final updatedEmail = ref.watch(emailStateProvider);
+    final response = await http.post(url,
+        headers: headers, body: jsonEncode({"email": updatedEmail}));
+
+    if (response.statusCode == 201) {
+      Navigator.pushNamed(context, MyRoutes.otpPage);
+    } else {
+      // Login failed, handle the error response
+      print('OTP failed. Error: ${response.statusCode}');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,11 +70,45 @@ class VerifyEmail extends StatelessWidget {
                 ],
               ),
               const Spacer(flex: 1),
-              const CustomTextField(text: 'Enter Email addresss'),
+              Card(
+                elevation: 10,
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    fillColor: Colors.white,
+                    filled: true,
+                    labelText: 'Enter Email',
+                    border: UnderlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  onChanged: (value) => updateEmail(value, ref),
+                ),
+              ),
               const Spacer(flex: 2),
-              CustomButton(
-                text: 'Confirm Email',
-                nextpage: MyRoutes.otpPage,
+              GestureDetector(
+                onTap: () => sendOtp(context),
+                child: AnimatedContainer(
+                  duration: const Duration(seconds: 1),
+                  alignment: Alignment.center,
+                  width: MediaQuery.of(context).size.width,
+                  height: 45,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: myPrimaryColor,
+                        offset: Offset(1, 3),
+                        blurRadius: 5,
+                        spreadRadius: 0,
+                      )
+                    ],
+                  ),
+                  child: Text('Confirm Email',
+                      textScaleFactor: 1.5,
+                      style: const TextStyle(color: Colors.white)),
+                ),
               ),
               const Spacer(flex: 15),
             ],

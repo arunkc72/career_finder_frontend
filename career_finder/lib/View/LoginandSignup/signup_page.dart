@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:career_finder/View/Utils/constants.dart';
 import 'package:career_finder/View/Utils/custom_textfield.dart';
 import 'package:career_finder/View/Utils/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 import '../Utils/custom_backbotton.dart';
 import '../Utils/custom_button.dart';
@@ -48,7 +51,7 @@ class _SignupPageState extends State<SignupPage> {
       signupaccess = false;
     }
 
-    if (passwordValue.isEmpty || passwordValue.length < 8) {
+    if (passwordValue.isEmpty || passwordValue.length < 6) {
       setState(() {
         _errorPassword = 'Please enter valid password';
       });
@@ -61,11 +64,63 @@ class _SignupPageState extends State<SignupPage> {
       });
       signupaccess = false;
     }
+    if (signupaccess = true) {
+      final url = Uri.parse('http://192.168.1.70:3000/auth/signup');
+      final headers = {'Content-Type': 'application/json'};
 
-    if (signupaccess) {
-      await Future.delayed(const Duration(seconds: 1), () {
-        Navigator.pushNamed(context, MyRoutes.loginPage);
-      });
+      final response = await http.post(url,
+          headers: headers,
+          body: jsonEncode({
+            "name": usernameValue,
+            "email": "monkey1@gmail.com",
+            "phoneNumber": phoneValue,
+            "password": passwordValue,
+            "confirmPassword": confirmValue
+          }));
+
+      if (response.statusCode == 201) {
+        print('successfully Signed Up');
+      } else {
+        setState(() {
+          signupaccess = false;
+        });
+        // Login failed, handle the error response
+        print('Signup failed. Error: ${response.statusCode}');
+      }
+
+      if (signupaccess) {
+        showModalBottomSheet(
+          context: context,
+          builder: (context) {
+            return ClipRRect(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10),
+              ),
+              child: Container(
+                height: 400,
+                color: Colors.white,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Image.asset('assets/images/tick.jpg',
+                          height: 300, width: 300),
+                      SizedBox(height: 20),
+                      const Text('Successfully signed up',
+                          textScaleFactor: 1.5),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+        Future.delayed(const Duration(seconds: 2), () {
+          Navigator.pushNamed(context, MyRoutes.loginPage);
+        });
+      }
     }
   }
 

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:career_finder/View/LoginandSignup/otp_form.dart';
+import 'package:career_finder/View/LoginandSignup/verify_email.dart';
 import 'package:career_finder/View/Utils/constants.dart';
 import 'package:career_finder/View/Utils/custom_backbotton.dart';
 import 'package:career_finder/View/Utils/routes.dart';
@@ -8,15 +9,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../Utils/custom_button.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class OtpPage extends StatefulWidget {
+class OtpPage extends ConsumerStatefulWidget {
   const OtpPage({super.key});
 
   @override
-  State<OtpPage> createState() => _OtpPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _OtpPageState();
 }
 
-class _OtpPageState extends State<OtpPage> {
+class _OtpPageState extends ConsumerState<OtpPage> {
   Timer? _timer;
   int _time = 120;
   String time = '2:00';
@@ -50,6 +52,7 @@ class _OtpPageState extends State<OtpPage> {
 
   @override
   Widget build(BuildContext context) {
+    String email = ref.watch(emailStateProvider);
     return Scaffold(
       body: Padding(
         padding: myPadding,
@@ -63,7 +66,8 @@ class _OtpPageState extends State<OtpPage> {
             const Spacer(
               flex: 2,
             ),
-            Text('Please enter the OTP you \n received on example@example.com',
+            Text(
+                'Please enter the OTP you \n received on $email',
                 style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                       fontWeight: FontWeight.bold,
                     )),
