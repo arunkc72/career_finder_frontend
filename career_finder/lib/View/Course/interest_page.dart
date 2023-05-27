@@ -23,7 +23,7 @@ class InterestPage extends ConsumerWidget {
         child: Column(
           children: [
             const Spacer(flex: 3),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomBackButton(),

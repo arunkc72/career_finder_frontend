@@ -12,30 +12,34 @@ class OptionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Padding(
-      padding: myPadding,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Spacer(
-            flex: 7,
-          ),
-          Text('What are you looking for ?',
-              style: Theme.of(context).textTheme.headlineSmall),
-          const Spacer(
-            flex: 2,
-          ),
-          const CustomOption(
-              text: 'University', image: optionuniversity, index: 0),
-          const Spacer(flex: 1),
-          const CustomOption(
-              text: 'Course to Study', image: optioncourse, index: 1),
-          const Spacer(flex: 1),
-          const CustomOption(text: 'Placement', image: optionjob, index: 2),
-          const Spacer(flex: 1),
-          const CustomOption(text: 'College', image: optioncollege, index: 3),
-          const Spacer(flex: 15),
-        ],
+        body: SafeArea(
+      child: Padding(
+        padding: myPadding,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Spacer(
+              flex: 7,
+            ),
+            Center(
+              child: Text('What are you looking for ?',
+                  style: Theme.of(context).textTheme.headlineSmall),
+            ),
+            const Spacer(
+              flex: 2,
+            ),
+            const CustomOption(
+                text: 'University', image: optionuniversity, index: 0),
+            const Spacer(flex: 1),
+            const CustomOption(
+                text: 'Course to Study', image: optioncourse, index: 1),
+            const Spacer(flex: 1),
+            const CustomOption(text: 'Placement', image: optionjob, index: 2),
+            const Spacer(flex: 1),
+            const CustomOption(text: 'College', image: optioncollege, index: 3),
+            const Spacer(flex: 15),
+          ],
+        ),
       ),
     ));
   }
@@ -51,7 +55,7 @@ class CustomSkipButton extends StatelessWidget {
     return Container(
       alignment: Alignment.centerRight,
       child: TextButton(
-        child: const Row(
+        child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text('Skip', textScaleFactor: 1.5),

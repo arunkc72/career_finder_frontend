@@ -1,4 +1,3 @@
-
 import 'package:career_finder/View/Utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,13 +18,13 @@ class UniversityRecommendation extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
-      padding: myPadding,
+      padding: EdgeInsets.all(10),
       child: Column(
         children: [
           Container(
             padding: const EdgeInsets.only(top: 10),
             alignment: Alignment.topLeft,
-            height: 30,
+            height: 35,
             child: Text('Recommended Universities',
                 textAlign: TextAlign.start, style: myLargeTitle(context)),
           ),
@@ -34,7 +33,7 @@ class UniversityRecommendation extends ConsumerWidget {
               print(data.toString());
               return ListView.builder(
                 shrinkWrap: true,
-                physics: const ScrollPhysics(),
+                physics: ScrollPhysics(),
                 itemCount: data.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
@@ -52,40 +51,84 @@ class UniversityRecommendation extends ConsumerWidget {
                             description: data[index].Description.toString());
                       }));
                     },
-                    child: Card(
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Container(
-                        height: 150,
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Expanded(
-                                child: SvgPicture.network(
-                                    'https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg')),
-                            Expanded(
-                                child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Column(
+                      children: [
+                        Card(
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Container(
+                            height: 180,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Text(
-                                  data[index].University_Name.toString(),
-                                  style: mytitlemedium(context),
+                                Expanded(
+                                    child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: Image.asset(
+                                          height: 180,
+                                          fit: BoxFit.fitHeight,
+                                          'assets/university.jpg',
+                                        ))),
+                                SizedBox(
+                                  width: 10,
                                 ),
-                                Text(
-                                    '${data[index].City.toString()},${data[index].Country.toString()}'),
-                                Text(data[index].Rank_In_World.toString()),
-                                Text(data[index].Rank_In_World.toString()),
-                                Text(data[index].Enrollment.toString()),
+                                Expanded(
+                                    child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      maxLines: 2,
+                                      data[index].University_Name.toString(),
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                        maxLines: 2,
+                                        '${data[index].City.toString()},${data[index].Country.toString()}'),
+                                    Text(
+                                      maxLines: 1,
+                                      'World Rank :' +
+                                          data[index].Rank_In_World.toString(),
+                                      style: TextStyle(color: Colors.green),
+                                    ),
+                                    Text(
+                                      maxLines: 1,
+                                      'Global Score :' +
+                                          data[index].Global_Score.toString(),
+                                      style: TextStyle(color: Colors.blue),
+                                    ),
+                                    Text(
+                                      maxLines: 1,
+                                      'Enrollment :' +
+                                          data[index].Enrollment.toString(),
+                                      style: TextStyle(
+                                          color: Colors.deepPurpleAccent),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                  ],
+                                ))
                               ],
-                            ))
-                          ],
+                            ),
+                          ),
                         ),
-                      ),
+                        SizedBox(
+                          height: 10,
+                        )
+                      ],
                     ),
                   );
                 },

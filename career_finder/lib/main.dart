@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'View/LoginandSignup/password_recovery.dart';
 import 'View/LoginandSignup/verify_email.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));

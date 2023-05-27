@@ -29,13 +29,13 @@ class BottomNavBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final value = ref.watch(indexValueProvider);
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+      padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
       child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(10),
           child: NavigationBarTheme(
             data: const NavigationBarThemeData(
                 backgroundColor: Colors.white,
-                indicatorColor: mybackgroundcolor,
+                indicatorColor: Colors.white,
                 labelBehavior: NavigationDestinationLabelBehavior.alwaysShow),
             child: NavigationBar(
               height: 70,

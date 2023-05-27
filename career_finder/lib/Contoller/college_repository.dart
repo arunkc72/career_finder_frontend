@@ -22,7 +22,7 @@ class CollegeService {
     // var headers = {"Content-type": "application/json"};
     // var uri = Uri.parse('http://127.0.0.1:5000//universities');
     var response = await http.post(
-      Uri.parse('http://192.168.1.70:5000/recommendCollege'),
+      Uri.parse('http://192.168.18.5:5000/recommendCollege'),
       headers: {
         "Content-type": "application/json",
       },

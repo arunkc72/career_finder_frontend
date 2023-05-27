@@ -7,7 +7,7 @@ class MyDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       width: MediaQuery.of(context).size.width / 1.2,
-      child: const Column(
+      child: Column(
         children: [
           UserAccountsDrawerHeader(
             accountName: Text('AK'),

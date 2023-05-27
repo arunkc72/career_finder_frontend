@@ -15,7 +15,7 @@ final courseFutureProvider = FutureProvider<List>((ref) async {
     "interest": ["1", "2", "3"]
   });
   var response = await http.post(
-    Uri.parse('http://192.168.1.70:5000/recommendSubject'),
+    Uri.parse('http://192.168.18.5:5000/recommendSubject'),
     headers: {
       "Content-type": "application/json",
     },
@@ -48,51 +48,62 @@ class CourseRecommendation extends ConsumerWidget {
           ),
           course.when(
             data: (data) {
-              return GridView.builder(
-                shrinkWrap: true,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 20,
-                    crossAxisSpacing: 20,
-                    childAspectRatio: 1.4),
-                itemCount: data.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) {
-                          return IndividualCourse(
-                              image: optionjob,
-                              course: data[index]['subject_name'],
-                              description: 'dglsglks');
-                        },
-                      ));
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '#$index',
-                            textAlign: TextAlign.center,
+              return SingleChildScrollView(
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 20,
+                      crossAxisSpacing: 20,
+                      childAspectRatio: 1.4),
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return IndividualCourse(
+                                image: optionjob,
+                                course: data[index]['subject_name'],
+                                description: 'dglsglks');
+                          },
+                        ));
+                      },
+                      child: Card(
+                        elevation: 10,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
                           ),
-                          const Spacer(flex: 2),
-                          Center(
-                            child: Text(
-                              data[index]['subject_name'],
-                              textAlign: TextAlign.center,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '#${index + 1}',
+                                  textAlign: TextAlign.center,
+                                ),
+                                const Spacer(flex: 2),
+                                Center(
+                                  child: Text(
+                                    data[index]['subject_name'],
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                                const Spacer(flex: 4)
+                              ],
                             ),
                           ),
-                          const Spacer(flex: 4)
-                        ],
+                        ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               );
             },
             error: (error, stackTrace) => Center(

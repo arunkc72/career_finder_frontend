@@ -21,7 +21,6 @@ class ProfilePage extends StatelessWidget {
         onTap: () {
           Navigator.pushNamed(context, MyRoutes.loginPage);
         },
-        splashColor: myPrimaryColor.withOpacity(0.2),
         tileColor: Colors.white,
         visualDensity: const VisualDensity(vertical: -3),
       );
