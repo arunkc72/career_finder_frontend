@@ -88,7 +88,7 @@ class CustomOption extends ConsumerWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const CampusQuestion(
+                  builder: (context) =>  CampusQuestion(
                     college: false,
                   ),
                 ));

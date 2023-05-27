@@ -1,3 +1,5 @@
+import 'package:flutter/widgets.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Selector {
@@ -20,9 +22,8 @@ class Selector {
 }
 
 class SelectorNotifier extends StateNotifier<Selector> {
-  SelectorNotifier():super(const Selector(
-    rank: 1,enrollement: 1,expensive: 1
-  ));
+  SelectorNotifier()
+      : super(const Selector(rank: 1, enrollement: 1, expensive: 1));
   void updaterank(int value) {
     state = state.copyWith(
       rank: value,
@@ -38,6 +39,24 @@ class SelectorNotifier extends StateNotifier<Selector> {
   void updateenrollement(int value) {
     state = state.copyWith(
       enrollement: value,
+    );
+  }
+}
+
+class CriteriaSelector extends StatefulWidget {
+  final bool bc;
+  const CriteriaSelector({Key? key,required this.bc}) : super(key: key);
+
+  @override
+  State<CriteriaSelector> createState() => _CriteriaSelectorState();
+}
+
+class _CriteriaSelectorState extends State<CriteriaSelector> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: 
+      widget.bc? Text("hello"): Text('dsjgk'),
     );
   }
 }

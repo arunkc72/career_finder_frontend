@@ -26,17 +26,37 @@ final cityOptionProvider = StateProvider<int>((ref) {
   return 1;
 });
 
-class CampusQuestion extends ConsumerWidget {
+class CampusQuestion extends ConsumerStatefulWidget {
   final bool college;
   const CampusQuestion({super.key, required this.college});
 
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _CampusQuestionState();
+}
+
+class _CampusQuestionState extends ConsumerState<CampusQuestion> {
+  bool invalidGrade = false;
   _selectedgrade(WidgetRef ref, String grade) {
     double newgrade = double.parse(grade);
     ref.read(gradeStateProvider.notifier).update((state) => newgrade);
   }
 
+  _validategrade(String grade) {
+    double? number = double.tryParse(grade);
+    if (number == null || number < 1.0 || number > 4.0) {
+      setState(() {
+        invalidGrade = true;
+      });
+    } else {
+      setState(() {
+        invalidGrade = false;
+      });
+    }
+  }
+
   _selectedcountry(WidgetRef ref, dynamic country) {
     String newcountry = country.toString();
+
     ref.read(countryStateProvider.notifier).update((state) => newcountry);
   }
 
@@ -45,7 +65,7 @@ class CampusQuestion extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final List country = [
       'Australia',
       'Canada',
@@ -111,7 +131,7 @@ class CampusQuestion extends ConsumerWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                'Enter our GPA in ${college ? 'high school' : '+2'}?',
+                'Enter our GPA in ${widget.college ? 'high school' : '+2'}?',
                 style: mytitlemedium(context),
               ),
               Card(
@@ -126,25 +146,32 @@ class CampusQuestion extends ConsumerWidget {
                         ),
                         labelText: 'Enter a number between 1.0 to 4.0'),
                     inputFormatters: [
-                      LengthLimitingTextInputFormatter(4),
+                      LengthLimitingTextInputFormatter(3),
                     ],
                     keyboardType:
                         const TextInputType.numberWithOptions(decimal: true),
-                    onSaved: (newValue) {
-                      _selectedgrade(ref, newValue.toString());
+                    onFieldSubmitted: (newValue) async {
+                      await _validategrade(newValue.toString());
+                      if (!invalidGrade)
+                        _selectedgrade(ref, newValue.toString());
                     },
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
+              if (invalidGrade)
+                Text(
+                  'Please enter valid grade',
+                  style: TextStyle(color: Colors.red, fontSize: 12),
+                ),
+              SizedBox(height: 10),
               Text(
-                college
+                widget.college
                     ? 'Do you want your college to be in your city?'
                     : 'Which country university are you looking for?',
                 style: mytitlemedium(context),
               ),
               const SizedBox(height: 10),
-              college
+              widget.college
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -191,14 +218,14 @@ class CampusQuestion extends ConsumerWidget {
                     ),
               const SizedBox(height: 10),
               Text(
-                'Rank how high do you want your  ${college ? 'College rank ' : 'university global score to be'} ?',
+                'Rank how high do you want your  ${widget.college ? 'College rank ' : 'university global score to be'} ?',
                 style: mytitlemedium(context),
               ),
               const SizedBox(height: 10),
               const CustomSelector(criteria: 'rank'),
               const SizedBox(height: 10),
               Text(
-                'Rank how expensive do you want your  ${college ? 'college' : 'university'} to be ?',
+                'Rank how expensive do you want your  ${widget.college ? 'college' : 'university'} to be ?',
                 style: mytitlemedium(context),
               ),
               const SizedBox(height: 10),
@@ -207,7 +234,7 @@ class CampusQuestion extends ConsumerWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                'Rank how high much enrollment do you want your ${college ? 'college' : 'university'} to have ?',
+                'Rank how high much enrollment do you want your ${widget.college ? 'college' : 'university'} to have ?',
                 style: mytitlemedium(context),
               ),
               const SizedBox(height: 10),
