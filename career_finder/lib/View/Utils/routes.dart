@@ -12,6 +12,4 @@ class MyRoutes {
   static String optionPage = '/option';
   //course
   static String interestPage = '/interest';
-
-  
 }

@@ -1,18 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class OtpForm extends StatefulWidget {
+final OtpStateProvider = StateProvider<String>((ref) {
+  return '';
+});
+
+
+class OtpForm extends ConsumerStatefulWidget {
   const OtpForm({super.key});
 
   @override
-  State<OtpForm> createState() => _OtpFormState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _OtpFormState();
 }
 
-class _OtpFormState extends State<OtpForm> {
-  Widget _otpBox() {
+class _OtpFormState extends ConsumerState<OtpForm> {
+  List<String> otpValues = List.filled(6, '');
+  String otp = '';
+
+  updateOtp(String otp, WidgetRef ref) {
+  ref.read(OtpStateProvider.notifier).update((state) => otp);
+}
+  Widget _otpBox(int index) {
     return Container(
-      height: 50,
-      width: 60,
+      height: 40,
+      width: 50,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -38,6 +50,9 @@ class _OtpFormState extends State<OtpForm> {
           FilteringTextInputFormatter.digitsOnly,
         ],
         onChanged: (value) {
+          otpValues[index] = value;
+          otp = otpValues.join();
+          updateOtp(otp,ref);
           if (value.length == 1) {
             FocusScope.of(context).nextFocus();
           }
@@ -45,7 +60,6 @@ class _OtpFormState extends State<OtpForm> {
             FocusScope.of(context).previousFocus();
           }
         },
-        onSaved: (value) {},
       ),
     );
   }
@@ -56,11 +70,12 @@ class _OtpFormState extends State<OtpForm> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _otpBox(),
-          _otpBox(),
-          _otpBox(),
-          _otpBox(),
-          _otpBox(),
+          _otpBox(0),
+          _otpBox(1),
+          _otpBox(2),
+          _otpBox(3),
+          _otpBox(4),
+          _otpBox(5),
         ],
       ),
     );

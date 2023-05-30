@@ -5,9 +5,7 @@ import 'package:http/http.dart' as http;
 import '../Utils/constants.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final interestProvider = StateProvider<int>((ref) {
-  return 0;
-});
+
 
 final courseFutureProvider = FutureProvider<List>((ref) async {
   // int interest = ref.watch(interestProvider);

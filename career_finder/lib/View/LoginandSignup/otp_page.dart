@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:career_finder/View/LoginandSignup/otp_form.dart';
 import 'package:career_finder/View/LoginandSignup/verify_email.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 
 import '../Utils/custom_button.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
 
 class OtpPage extends ConsumerStatefulWidget {
   const OtpPage({super.key});
@@ -34,6 +36,9 @@ class _OtpPageState extends ConsumerState<OtpPage> {
       setState(() {
         _time--;
         formatTime(_time);
+        if (_time <= 0) {
+          _timer!.cancel();
+        }
       });
     });
   }
@@ -48,6 +53,33 @@ class _OtpPageState extends ConsumerState<OtpPage> {
   void dispose() {
     _timer!.cancel();
     super.dispose();
+  }
+
+  sendOtp() async {
+    final url = Uri.parse('http://192.168.1.70:3000/otp/generateOTP');
+    final headers = {'Content-Type': 'application/json'};
+    final response = await http.post(url,
+        headers: headers,
+        body: jsonEncode({"email": ref.watch(emailStateProvider)}));
+
+    if (response.statusCode == 201) {
+      startTimer();
+    }
+  }
+
+  confirmOTP() async {
+    final url = Uri.parse('http://192.168.1.70:3000/otp/verifyOTP');
+    final headers = {'Content-Type': 'application/json'};
+    final response = await http.post(url,
+        headers: headers,
+        body: jsonEncode({
+          "email": ref.watch(emailStateProvider),
+          "code": ref.watch(OtpStateProvider),
+        }));
+
+    if (response.statusCode == 201) {
+      Navigator.pushNamed(context, MyRoutes.signupPage);
+    }
   }
 
   @override
@@ -66,8 +98,7 @@ class _OtpPageState extends ConsumerState<OtpPage> {
             const Spacer(
               flex: 2,
             ),
-            Text(
-                'Please enter the OTP you \n received on $email',
+            Text('Please enter the OTP you \n received on $email',
                 style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                       fontWeight: FontWeight.bold,
                     )),
@@ -76,15 +107,20 @@ class _OtpPageState extends ConsumerState<OtpPage> {
             const Spacer(flex: 1),
             Container(
               alignment: Alignment.center,
-              child: Text(
-                'Expires in $time',
-                style: const TextStyle(color: myTimerColor),
-              ),
+              child: (_time <= 0)
+                  ? Text(
+                      'OTP Expired ',
+                      style: const TextStyle(color: Colors.red),
+                    )
+                  : Text(
+                      'Expires in $time',
+                      style: const TextStyle(color: myTimerColor),
+                    ),
             ),
             const Spacer(flex: 1),
             CustomButton(
               text: 'Confirm OTP',
-              nextpage: MyRoutes.signupPage,
+              ontap: () => confirmOTP(),
             ),
             const Spacer(flex: 2),
             SizedBox(
@@ -92,7 +128,8 @@ class _OtpPageState extends ConsumerState<OtpPage> {
               child: TextButton.icon(
                 onPressed: () {},
                 icon: const Icon(CupertinoIcons.arrow_counterclockwise),
-                label: const Text('Resend again'),
+                label: GestureDetector(
+                    onTap: sendOtp, child: Text('Resend again')),
               ),
             ),
             const Spacer(

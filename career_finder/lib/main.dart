@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: MyThemes.lighttheme,
-      initialRoute: MyRoutes.verifyEmailPage,
+      initialRoute: MyRoutes.optionPage,
       routes: {
         MyRoutes.splashPage: (context) => const SplashScreen(),
         MyRoutes.loginPage: (context) => const LoginPage(),

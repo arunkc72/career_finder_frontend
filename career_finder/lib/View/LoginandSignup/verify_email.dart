@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:career_finder/View/Utils/constants.dart';
 import 'package:career_finder/View/Utils/custom_backbotton.dart';
-import 'package:career_finder/View/Utils/custom_button.dart';
 import 'package:career_finder/View/Utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -32,6 +31,7 @@ class _VerifyEmailState extends ConsumerState<VerifyEmail> {
         headers: headers, body: jsonEncode({"email": updatedEmail}));
 
     if (response.statusCode == 201) {
+      print(response.body);
       Navigator.pushNamed(context, MyRoutes.otpPage);
     } else {
       // Login failed, handle the error response
