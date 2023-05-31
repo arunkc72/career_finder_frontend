@@ -1,18 +1,25 @@
 import 'package:career_finder/View/Utils/constants.dart';
 import 'package:career_finder/View/Utils/custom_backbotton.dart';
-import 'package:career_finder/View/option_page.dart';
+import 'package:career_finder/View/Utils/routes.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final interestProvider = StateProvider<List<int>>((ref) {
+final interestProvider = StateProvider<List<String>>((ref) {
   return [];
 });
 
-class InterestPage extends ConsumerWidget {
-  const InterestPage({Key? key}) : super(key: key);
+class InterestPage extends ConsumerStatefulWidget {
+  const InterestPage({super.key});
 
-  void updateinterest(WidgetRef ref, int index) async {
-    List<int> selectedInterests = ref.read(interestProvider.notifier).state;
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _InterestPageState();
+}
+
+class _InterestPageState extends ConsumerState<InterestPage> {
+  void updateinterest(WidgetRef ref, int value) async {
+    String index = value.toString();
+    List<String> selectedInterests = ref.read(interestProvider.notifier).state;
     if (selectedInterests.length < 3 && !selectedInterests.contains(index)) {
       ref.read(interestProvider.notifier).state.add(index);
     } else if (selectedInterests.length == 3 &&
@@ -22,11 +29,18 @@ class InterestPage extends ConsumerWidget {
     } else {
       ref.read(interestProvider.notifier).state.remove(index);
     }
-    
+  }
+
+  bool checkSelected(WidgetRef ref, int index) {
+    if (ref.watch(interestProvider).contains('$index')) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     List<String> interest = ref.watch(interestStateProvider);
     return Scaffold(
       body: Padding(
@@ -34,11 +48,29 @@ class InterestPage extends ConsumerWidget {
         child: Column(
           children: [
             const Spacer(flex: 3),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomBackButton(),
-                CustomSkipButton(),
+                TextButton(
+                  onPressed: () {
+                    if (ref.watch(interestProvider).length == 3) {
+                      Navigator.pushNamed(context, MyRoutes.homePage);
+                    }
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        ref.watch(interestProvider).length == 3
+                            ? 'Next'
+                            : 'Skip',
+                        textScaleFactor: 1.5,
+                      ),
+                      Icon(CupertinoIcons.forward),
+                    ],
+                  ),
+                ),
               ],
             ),
             const Spacer(
@@ -61,16 +93,16 @@ class InterestPage extends ConsumerWidget {
                   ),
                   itemCount: interest.length,
                   itemBuilder: (context, index) {
-                    List<int> selectedInterests = ref.watch(interestProvider);
                     return GestureDetector(
                       onTap: () {
                         updateinterest(ref, index);
                         setState(() {});
+                        print(ref.watch(interestProvider));
                       },
                       child: Container(
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          color: ref.watch(interestProvider).contains(index)
+                          color: checkSelected(ref, index)
                               ? Colors.blue
                               : Colors.white,
                           borderRadius: BorderRadius.circular(10),
@@ -79,7 +111,7 @@ class InterestPage extends ConsumerWidget {
                           interest[index],
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: selectedInterests.contains(index)
+                            color: checkSelected(ref, index)
                                 ? Colors.white
                                 : Colors.black,
                           ),

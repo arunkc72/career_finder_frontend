@@ -5,15 +5,14 @@ import 'package:http/http.dart' as http;
 import '../Utils/constants.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'interest_page.dart';
 
-
-final courseFutureProvider = FutureProvider<List>((ref) async {
-  // int interest = ref.watch(interestProvider);
-  var body = jsonEncode({
-    "interest": ["1", "2", "3"]
-  });
+final courseFutureProvider = FutureProvider.autoDispose<List>((ref) async {
+  ref.watch(interestProvider);
+  List<String> interest = ref.read(interestProvider.notifier).state;
+  var body = jsonEncode({"interest": interest});
   var response = await http.post(
-    Uri.parse('http://192.168.18.5:5000/recommendSubject'),
+    Uri.parse('http://192.168.1.70:5000/recommendSubject'),
     headers: {
       "Content-type": "application/json",
     },
@@ -33,7 +32,7 @@ class CourseRecommendation extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var course = ref.watch(courseFutureProvider);
+    final course = ref.watch(courseFutureProvider);
     return Padding(
       padding: myPadding,
       child: Column(
