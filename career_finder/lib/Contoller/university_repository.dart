@@ -1,23 +1,31 @@
 import 'dart:convert';
+import 'package:career_finder/View/University-College/question_page.dart';
 import 'package:http/http.dart' as http;
 
 import '../Model/university_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final universityServiceProvider = Provider<UniversityService>((ref) {
-  return UniversityService();
+  return UniversityService(ref);
 });
 
 class UniversityService {
+  ProviderRef ref;
+  UniversityService(this.ref);
   Future<List<University>> postUniversity() async {
+    var selectedValue = ref.watch(selectorNotifierProvider);
+    var country = ref.watch(countryStateProvider);
+    var city = ref.watch(cityStateProvider);
+    var course = ref.watch(courseStateProvider);
+    var gpa = ref.watch(gradeStateProvider);
     var body = jsonEncode({
-      "global_score": 5,
-      "enrollment": 1,
-      "expense": 0,
-      "course": "Microbiology",
-      "country": "Australia",
-      "city": "Sydney",
-      "gpa": 3.8,
+      "global_score": selectedValue.rank,
+      "enrollment": selectedValue.enrollement,
+      "expense": selectedValue.expensive,
+      "course": course,
+      "country": country,
+      "city": city,
+      "gpa": gpa,
       "rank": 1
     });
     // var headers = {"Content-type": "application/json"};

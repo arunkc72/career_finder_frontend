@@ -17,7 +17,8 @@ class InterestPage extends ConsumerStatefulWidget {
 }
 
 class _InterestPageState extends ConsumerState<InterestPage> {
-  void updateinterest(WidgetRef ref, int value) async {
+  bool nextpage = false;
+  void updateinterest(WidgetRef ref, int value) {
     String index = value.toString();
     List<String> selectedInterests = ref.read(interestProvider.notifier).state;
     if (selectedInterests.length < 3 && !selectedInterests.contains(index)) {
@@ -28,6 +29,15 @@ class _InterestPageState extends ConsumerState<InterestPage> {
       ref.read(interestProvider.notifier).state.add(index);
     } else {
       ref.read(interestProvider.notifier).state.remove(index);
+    }
+    if (ref.read(interestProvider.notifier).state.length == 3) {
+      setState(() {
+        nextpage = true;
+      });
+    } else {
+      setState(() {
+        nextpage = false;
+      });
     }
   }
 
@@ -52,24 +62,30 @@ class _InterestPageState extends ConsumerState<InterestPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomBackButton(),
-                TextButton(
-                  onPressed: () {
-                    if (ref.watch(interestProvider).length == 3) {
-                      Navigator.pushNamed(context, MyRoutes.homePage);
-                    }
-                  },
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        ref.watch(interestProvider).length == 3
-                            ? 'Next'
-                            : 'Skip',
-                        textScaleFactor: 1.5,
+                StatefulBuilder(
+                  builder: (context, setState) {
+                    var selectedInterest =
+                        ref.read(interestProvider.notifier).state.length;
+                    setState(() {});
+
+                    return TextButton(
+                      onPressed: () {
+                        if (selectedInterest == 3) {
+                          Navigator.pushNamed(context, MyRoutes.homePage);
+                        }
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            nextpage ? 'Next' : 'Skip',
+                            textScaleFactor: 1.5,
+                          ),
+                          Icon(CupertinoIcons.forward),
+                        ],
                       ),
-                      Icon(CupertinoIcons.forward),
-                    ],
-                  ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -78,8 +94,9 @@ class _InterestPageState extends ConsumerState<InterestPage> {
             ),
             Text('What interests you the most ?', style: myLargeTitle(context)),
             Text(
-              'Please select 3 interests',
-              style: TextStyle(fontSize: 16),
+              nextpage ? 'That\'s good' : 'Please select 3 interests',
+              style: TextStyle(
+                  fontSize: 16, color: nextpage ? Colors.green : Colors.red),
             ),
             StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
@@ -97,7 +114,6 @@ class _InterestPageState extends ConsumerState<InterestPage> {
                       onTap: () {
                         updateinterest(ref, index);
                         setState(() {});
-                        print(ref.watch(interestProvider));
                       },
                       child: Container(
                         alignment: Alignment.center,

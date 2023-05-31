@@ -5,18 +5,25 @@ import 'package:http/http.dart' as http;
 import '../Model/college_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../View/University-College/question_page.dart';
+
 final collegeServiceProvider = Provider<CollegeService>((ref) {
-  return CollegeService();
+  return CollegeService(ref);
 });
 
 class CollegeService {
+  ProviderRef ref;
+  CollegeService(this.ref);
   Future<List<College>> postcollege() async {
+    var selectedValue = ref.watch(selectorNotifierProvider);
+    var city = ref.watch(cityStateProvider);
+    var gpa = ref.watch(gradeStateProvider);
     var body = jsonEncode({
-      "rank": 2,
-      "enrollment": "20,000",
-      "expense": 0,
-      "city": "Pokhara",
-      "gpa": 3.8,
+      "rank": selectedValue.rank,
+      "enrollment": selectedValue.enrollement,
+      "expense": selectedValue.expensive,
+      "city": city,
+      "gpa": gpa,
       "address": "Lamachaur, Pokhara"
     });
     // var headers = {"Content-type": "application/json"};

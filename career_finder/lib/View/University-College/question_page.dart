@@ -25,6 +25,15 @@ final countryStateProvider = StateProvider<String>((ref) {
 final cityOptionProvider = StateProvider<int>((ref) {
   return 1;
 });
+final cityStateProvider = StateProvider<String>((ref) {
+  return 'Sydney';
+});
+final courseStateProvider = StateProvider<String>((ref) {
+  return 'Computer Science';
+});
+final addressStateProvider = StateProvider<String>((ref) {
+  return 'Lamachaur, Pokhara';
+});
 
 class CampusQuestion extends ConsumerStatefulWidget {
   final bool college;
@@ -36,7 +45,7 @@ class CampusQuestion extends ConsumerStatefulWidget {
 
 class _CampusQuestionState extends ConsumerState<CampusQuestion> {
   bool invalidGrade = false;
-  _selectedgrade(WidgetRef ref, String grade) {
+  selectedgrade(WidgetRef ref, String grade) {
     double newgrade = double.parse(grade);
     ref.read(gradeStateProvider.notifier).update((state) => newgrade);
   }
@@ -60,8 +69,21 @@ class _CampusQuestionState extends ConsumerState<CampusQuestion> {
     ref.read(countryStateProvider.notifier).update((state) => newcountry);
   }
 
-  _cityoption(WidgetRef ref, int index) {
-    ref.read(cityOptionProvider.notifier).update((state) => index);
+  _selectedCity(WidgetRef ref, dynamic country) {
+    String newcountry = country.toString();
+
+    ref.read(cityStateProvider.notifier).update((state) => newcountry);
+  }
+  _selectedAddress(WidgetRef ref, dynamic country) {
+    String newcountry = country.toString();
+
+    ref.read(addressStateProvider.notifier).update((state) => newcountry);
+  }
+
+  _selectedCourse(WidgetRef ref, dynamic course) {
+    String newCourse = course.toString();
+
+    ref.read(courseStateProvider.notifier).update((state) => newCourse);
   }
 
   @override
@@ -74,7 +96,57 @@ class _CampusQuestionState extends ConsumerState<CampusQuestion> {
       'UK',
       'Denmark',
     ];
+    final List<String> course = [
+      'Computer Science',
+      'Agricultural Sciences',
+      'Artificial Intelligence',
+      'Arts and Humanities',
+      'Biology and Biochemistry',
+      'Biotechnology and Applied Microbiology',
+      'Cardiac and Cardiovascular Systems',
+      'Cell Biology',
+      'Chemical Engineering',
+      'Chemistry',
+      'Civil Engineering',
+      'Clinical Medicine',
+      'Condensed Matter Physics',
+      'Economics and Business',
+      'Education and Educational Research',
+      'Electrical and Electronic Engineering',
+      'Endocrinology and Metabolism',
+      'Energy and Fuels',
+      'Engineering',
+      'EnvironmentEcology',
+      'Food Science and Technology',
+      'Gastroenterology and Hepatology',
+      'Geosciences',
+      'Immunology',
+      'Infectious Diseases',
+      'Materials Science',
+      'Mathematics',
+      'Mechanical Engineering',
+      'Meteorology and Atmospheric Sciences',
+      'Microbiology',
+      'Molecular Biology and Genetics',
+      'Nanoscience and Nanotechnology',
+      'Neuroscience and Behavior',
+      'Oncology',
+      'Optics',
+      'Pharmacology and Toxicology',
+      'Physical Chemistry',
+      'Physics',
+      'Plant and Animal Science',
+      'Polymer Science',
+      'Psychiatry Psychology',
+      'Public Environmental and Occupational Health',
+      'Radiology Nuclear Medicine and Medical Imaging',
+      'Social Sciences and Public Health',
+      'Space Science',
+      'Surgery',
+      'Water Resources'
+    ];
     String selectedCountry = ref.watch(countryStateProvider);
+    String selectedCourse = ref.watch(courseStateProvider);
 
     List<DropdownMenuItem> countrylist = List.generate(
       6,
@@ -95,7 +167,6 @@ class _CampusQuestionState extends ConsumerState<CampusQuestion> {
         ),
       ),
     );
-    int cityOption = ref.watch(cityOptionProvider);
     return Scaffold(
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(
@@ -131,7 +202,7 @@ class _CampusQuestionState extends ConsumerState<CampusQuestion> {
               ),
               const SizedBox(height: 10),
               Text(
-                'Enter our GPA in ${widget.college ? 'high school' : '+2'}?',
+                'Enter our GPA in ${widget.college ? 'school' : '+2'}?',
                 style: mytitlemedium(context),
               ),
               Card(
@@ -152,52 +223,41 @@ class _CampusQuestionState extends ConsumerState<CampusQuestion> {
                         const TextInputType.numberWithOptions(decimal: true),
                     onFieldSubmitted: (newValue) async {
                       await _validategrade(newValue.toString());
-                      if (!invalidGrade)
-                        _selectedgrade(ref, newValue.toString());
+                      if (!invalidGrade) {
+                        selectedgrade(ref, newValue.toString());
+                      }
                     },
                   ),
                 ),
               ),
               if (invalidGrade)
-                Text(
+                const Text(
                   'Please enter valid grade',
                   style: TextStyle(color: Colors.red, fontSize: 12),
                 ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
                 widget.college
-                    ? 'Do you want your college to be in your city?'
+                    ? 'Enter your address'
                     : 'Which country university are you looking for?',
                 style: mytitlemedium(context),
               ),
-              const SizedBox(height: 10),
               widget.college
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        for (int i = 1; i <= 3; i++)
-                          ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: (cityOption == i)
-                                      ? myPrimaryColor
-                                      : Colors.white,
-                                  foregroundColor: (cityOption == i)
-                                      ? Colors.white
-                                      : Colors.black,
-                                  fixedSize: const Size(80, 50),
-                                  padding: EdgeInsets.zero),
-                              onPressed: () {
-                                _cityoption(ref, i);
-                              },
-                              child: (i == 1)
-                                  ? const Text('Yes')
-                                  : (i == 2)
-                                      ? const Text('No')
-                                      : const Text(
-                                          'Not important',
-                                          textAlign: TextAlign.center,
-                                        ))
-                      ],
+                  ? Card(
+                      elevation: 10,
+                      child: SizedBox(
+                        height: 60,
+                        child: TextFormField(
+                            cursorHeight: 30,
+                            decoration: const InputDecoration(
+                                border: UnderlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                ),
+                                labelText: 'Enter address'),
+                            onFieldSubmitted: (newValue) {
+                              _selectedAddress(ref, newValue);
+                            }),
+                      ),
                     )
                   : Card(
                       elevation: 10,
@@ -217,6 +277,59 @@ class _CampusQuestionState extends ConsumerState<CampusQuestion> {
                       ),
                     ),
               const SizedBox(height: 10),
+              if (widget.college == false)
+                Text(
+                  'Enter your subject name',
+                  style: mytitlemedium(context),
+                ),
+              if (widget.college == false) const SizedBox(height: 10),
+              if (widget.college == false)
+                Card(
+                  elevation: 10,
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton(
+                        isExpanded: true,
+                        icon: const Icon(
+                          Icons.keyboard_arrow_down,
+                          size: 40,
+                        ),
+                        value: selectedCourse,
+                        itemHeight: 60,
+                        items: List.generate(
+                            course.length,
+                            (index) => DropdownMenuItem(
+                                value: course[index],
+                                child: Text(course[index]))),
+                        onChanged: (value) {
+                          _selectedCourse(ref, value);
+                        }),
+                  ),
+                ),
+              const SizedBox(height: 10),
+              Text(
+                'Enter City',
+                style: mytitlemedium(context),
+              ),
+              Card(
+                elevation: 10,
+                child: SizedBox(
+                  height: 60,
+                  child: TextFormField(
+                      cursorHeight: 30,
+                      decoration: InputDecoration(
+                          border: const UnderlineInputBorder(
+                            borderSide: BorderSide.none,
+                          ),
+                          labelText:
+                              'Enter city to search ${widget.college ? 'college' : 'university'}'),
+                      onFieldSubmitted: (newValue) {
+                        _selectedCity(ref, newValue);
+                      }),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
               Text(
                 'Rank how high do you want your  ${widget.college ? 'College rank ' : 'university global score to be'} ?',
                 style: mytitlemedium(context),
