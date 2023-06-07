@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../Utils/routes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -11,9 +12,14 @@ class SplashScreen extends StatefulWidget {
 
 class SplashScreenState extends State<SplashScreen> {
   @override
-  void initState() {
-    Future.delayed(const Duration(seconds: 2)).then(
-        (value) => Navigator.pushReplacementNamed(context, MyRoutes.loginPage));
+  void initState() async {
+    SharedPreferences loggedIn = await SharedPreferences.getInstance();
+    String? loginId = loggedIn.getString('state');
+
+    Future.delayed(const Duration(seconds: 2)).then((value) =>
+        loginId == "logged"
+            ? Navigator.pushReplacementNamed(context, MyRoutes.homePage)
+            : Navigator.pushReplacementNamed(context, MyRoutes.loginPage));
     super.initState();
   }
 

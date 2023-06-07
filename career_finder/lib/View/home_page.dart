@@ -15,6 +15,12 @@ final indexValueProvider = StateProvider<int>((ref) {
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
+  _selectedIndex(WidgetRef ref, dynamic newIndex) {
+    int newIndex1 = newIndex.toInt();
+
+    ref.read(indexValueProvider.notifier).update((state) => newIndex1);
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final index = ref.watch(indexValueProvider);

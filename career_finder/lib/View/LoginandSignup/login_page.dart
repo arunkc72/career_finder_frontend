@@ -5,6 +5,7 @@ import 'package:career_finder/View/Utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -50,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
       });
       loginaccess = false;
     }
-    final url = Uri.parse('http://192.168.1.70:3000/auth/login');
+    final url = Uri.parse('http://192.168.18.5:3000/auth/login');
     final headers = {'Content-Type': 'application/json'};
     final response = await http.post(url,
         headers: headers,
@@ -58,6 +59,8 @@ class _LoginPageState extends State<LoginPage> {
 
     if (response.statusCode == 200) {
       print('successfully login');
+      SharedPreferences loggedIn = await SharedPreferences.getInstance();
+      loggedIn.setString('state', "logged");
     } else {
       setState(() {
         loginaccess = false;
@@ -66,9 +69,8 @@ class _LoginPageState extends State<LoginPage> {
       print('Login failed. Error: ${response.statusCode}');
     }
     if (loginaccess) {
-     
       await Future.delayed(const Duration(seconds: 1), () {
-        Navigator.pushNamed(context, MyRoutes.optionPage);
+        Navigator.pushNamed(context, MyRoutes.homePage);
       });
 
       setState(() {
@@ -109,26 +111,29 @@ class _LoginPageState extends State<LoginPage> {
                     const Spacer(flex: 1),
                     Card(
                       elevation: 10,
-                      child: TextFormField(
-                        key: _emailKey,
-                        autovalidateMode: AutovalidateMode.disabled,
-                        decoration: const InputDecoration(
-                          fillColor: Colors.white,
-                          filled: true,
-                          labelText: 'Email or User name',
-                          border:
-                              UnderlineInputBorder(borderSide: BorderSide.none),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          key: _emailKey,
+                          autovalidateMode: AutovalidateMode.disabled,
+                          decoration: const InputDecoration(
+                            fillColor: Colors.white,
+                            filled: true,
+                            hintText: 'Email or User name',
+                            border: UnderlineInputBorder(
+                                borderSide: BorderSide.none),
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty ||
+                                !value.contains('@') ||
+                                !value.contains('.com') ||
+                                value.length < 6) {
+                              return null;
+                            } else {
+                              return null;
+                            }
+                          },
                         ),
-                        validator: (value) {
-                          if (value!.isEmpty ||
-                              !value.contains('@') ||
-                              !value.contains('.com') ||
-                              value.length < 6) {
-                            return null;
-                          } else {
-                            return null;
-                          }
-                        },
                       ),
                     ),
                     if (_errorEmail != null)
@@ -141,33 +146,36 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     Card(
                       elevation: 10,
-                      child: TextFormField(
-                        key: _passwordKey,
-                        autovalidateMode: AutovalidateMode.disabled,
-                        obscureText: showpassword,
-                        decoration: InputDecoration(
-                          fillColor: Colors.white,
-                          filled: true,
-                          suffixIcon: TextButton(
-                            onPressed: () {
-                              setState(() {
-                                showpassword = !showpassword;
-                              });
-                            },
-                            child: Text(showpassword ? 'Show' : 'Hide'),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          key: _passwordKey,
+                          autovalidateMode: AutovalidateMode.disabled,
+                          obscureText: showpassword,
+                          decoration: InputDecoration(
+                            fillColor: Colors.white,
+                            filled: true,
+                            suffixIcon: TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  showpassword = !showpassword;
+                                });
+                              },
+                              child: Text(showpassword ? 'Show' : 'Hide'),
+                            ),
+                            border: UnderlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius: BorderRadius.circular(10)),
+                            hintText: 'Password',
                           ),
-                          border: UnderlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(10)),
-                          labelText: 'Password',
+                          validator: (value) {
+                            if (value!.length < 8) {
+                              return null;
+                            } else {
+                              return null;
+                            }
+                          },
                         ),
-                        validator: (value) {
-                          if (value!.length < 8) {
-                            return null;
-                          } else {
-                            return null;
-                          }
-                        },
                       ),
                     ),
                     if (_errorPassword != null)
@@ -175,18 +183,18 @@ class _LoginPageState extends State<LoginPage> {
                         _errorPassword!,
                         style: const TextStyle(color: Colors.red),
                       ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(
-                              context, MyRoutes.passwordRecovery);
-                        },
-                        child: const Text(
-                          'Forgot Password ?',
-                        ),
-                      ),
-                    ),
+                    // Align(
+                    //   alignment: Alignment.topRight,
+                    //   child: TextButton(
+                    //     onPressed: () {
+                    //       Navigator.pushNamed(
+                    //           context, MyRoutes.passwordRecovery);
+                    //     },
+                    //     child: const Text(
+                    //       'Forgot Password ?',
+                    //     ),
+                    //   ),
+                    // ),
                     const Spacer(
                       flex: 1,
                     ),
@@ -212,9 +220,12 @@ class _LoginPageState extends State<LoginPage> {
                           ],
                         ),
                         child: loginaccess
-                            ? const CircularProgressIndicator(
-                                color: Colors.white,
-                                backgroundColor: Colors.black,
+                            ? Container(
+                                height: 30,
+                                width: 30,
+                                child: const CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
                               )
                             : const Text('Login',
                                 textScaleFactor: 1.5,

@@ -26,8 +26,7 @@ class IndividualPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String myimage =
-        'https://plus.unsplash.com/premium_photo-1661930029003-0404b6e917f6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1932&q=80';
+    String myimage = '$image';
     return Scaffold(
       body: SafeArea(
           child: SizedBox(
@@ -42,7 +41,7 @@ class IndividualPage extends StatelessWidget {
                   bottomLeft: Radius.circular(40),
                   bottomRight: Radius.circular(40),
                 ),
-                child: Image.network(
+                child: Image.asset(
                   myimage,
                   fit: BoxFit.cover,
                 ),
@@ -70,37 +69,54 @@ class IndividualPage extends StatelessWidget {
                                   style: Theme.of(context)
                                       .textTheme
                                       .headlineSmall),
-                              Text('$country,$city',
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text('Location:' + ' $country,$city',
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleLarge!
                                       .apply(
                                           color:
                                               Colors.black.withOpacity(0.5))),
+                              SizedBox(
+                                height: 10,
+                              ),
                               RichText(
                                   text: TextSpan(
                                       text: 'World Rank : ',
-                                      style: const TextStyle(color: Colors.black),
+                                      style:
+                                          const TextStyle(color: Colors.black),
                                       children: [
                                     TextSpan(
                                       text: '$worldRank',
-                                      style: const TextStyle(color: Colors.green),
+                                      style:
+                                          const TextStyle(color: Colors.green),
                                     ),
                                   ])),
+                              SizedBox(
+                                height: 10,
+                              ),
                               RichText(
                                   text: TextSpan(
                                       text: 'Global Score : ',
-                                      style: const TextStyle(color: Colors.black),
+                                      style:
+                                          const TextStyle(color: Colors.black),
                                       children: [
                                     TextSpan(
                                       text: '$globalScore',
-                                      style: const TextStyle(color: Colors.green),
+                                      style:
+                                          const TextStyle(color: Colors.green),
                                     ),
                                   ])),
+                              SizedBox(
+                                height: 10,
+                              ),
                               RichText(
                                   text: TextSpan(
                                       text: 'Enrollment : ',
-                                      style: const TextStyle(color: Colors.black),
+                                      style:
+                                          const TextStyle(color: Colors.black),
                                       children: [
                                     TextSpan(
                                       text: '$enrollment',
@@ -108,7 +124,10 @@ class IndividualPage extends StatelessWidget {
                                           const TextStyle(color: Colors.orange),
                                     ),
                                   ])),
-                              Text('Description : \n $description'),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text('Description :$description'),
                             ]),
                       ),
                     ),

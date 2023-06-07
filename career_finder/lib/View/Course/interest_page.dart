@@ -4,6 +4,9 @@ import 'package:career_finder/View/Utils/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../home_page.dart';
 
 final interestProvider = StateProvider<List<String>>((ref) {
   return [];
@@ -49,6 +52,12 @@ class _InterestPageState extends ConsumerState<InterestPage> {
     }
   }
 
+  _selectedIndex(WidgetRef ref, dynamic newIndex) {
+    int newIndex1 = newIndex.toInt();
+
+    ref.read(indexValueProvider.notifier).update((state) => newIndex1);
+  }
+
   @override
   Widget build(BuildContext context) {
     List<String> interest = ref.watch(interestStateProvider);
@@ -57,7 +66,7 @@ class _InterestPageState extends ConsumerState<InterestPage> {
         padding: myPadding,
         child: Column(
           children: [
-            const Spacer(flex: 3),
+            const Spacer(flex: 5),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -69,8 +78,17 @@ class _InterestPageState extends ConsumerState<InterestPage> {
                     setState(() {});
 
                     return TextButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (selectedInterest == 3) {
+                          _selectedIndex(ref, 1);
+                          SharedPreferences courseSession =
+                              await SharedPreferences.getInstance();
+                          print("The interest saved to sesssion is");
+                          List<String> selectedValues =
+                              ref.read(interestProvider.notifier).state;
+                          print(selectedValues);
+                          await courseSession.setStringList(
+                              'interest', selectedValues);
                           Navigator.pushNamed(context, MyRoutes.homePage);
                         }
                       },
@@ -94,7 +112,7 @@ class _InterestPageState extends ConsumerState<InterestPage> {
             ),
             Text('What interests you the most ?', style: myLargeTitle(context)),
             Text(
-              nextpage ? 'That\'s good' : 'Please select 3 interests',
+              nextpage ? '\nThat\'s good \n' : '\nPlease select 3 interests\n',
               style: TextStyle(
                   fontSize: 16, color: nextpage ? Colors.green : Colors.red),
             ),

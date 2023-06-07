@@ -8,15 +8,20 @@ class MySliverAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-      toolbarHeight: 80,
-      leading: Image.asset('assets/logos/Career_Finder_logo.png'),
+      pinned: true,
+      floating: false,
+      toolbarHeight: 70,
+      leading: Padding(
+        padding: const EdgeInsets.fromLTRB(15.0, 0, 0, 0),
+        child: Image.asset('assets/logos/Career_Finder_logo.png'),
+      ),
       // leading: Image.asset(applogo),
       titleSpacing: 10,
       title: Text(
         'Career \n Finder',
         style: Theme.of(context)
             .textTheme
-            .titleLarge!
+            .titleMedium!
             .copyWith(fontWeight: FontWeight.w500),
       ),
     );

@@ -17,8 +17,7 @@ class IndividualCourse extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String myimage =
-        'https://plus.unsplash.com/premium_photo-1661930029003-0404b6e917f6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1932&q=80';
+    String? myimage = image;
     return Scaffold(
       body: SafeArea(
           child: SizedBox(
@@ -33,8 +32,8 @@ class IndividualCourse extends StatelessWidget {
                   bottomLeft: Radius.circular(40),
                   bottomRight: Radius.circular(40),
                 ),
-                child: Image.network(
-                  myimage,
+                child: Image.asset(
+                  myimage!,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -57,13 +56,29 @@ class IndividualCourse extends StatelessWidget {
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              SizedBox(
+                                height: 10,
+                              ),
                               Text(course ?? university.toString(),
                                   style: Theme.of(context)
                                       .textTheme
                                       .headlineSmall),
-                              const Text('Trending : \n Future Scope '),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              const Text('Trending :'),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              const Text('Future Scope :'),
+                              SizedBox(
+                                height: 10,
+                              ),
                               const Text('Enrollment :'),
-                              Text('Description : \n $description'),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text('Description : \n\n$description'),
                             ]),
                       ),
                     ),

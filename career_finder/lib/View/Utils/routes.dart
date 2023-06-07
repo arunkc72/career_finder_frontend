@@ -12,4 +12,6 @@ class MyRoutes {
   static String optionPage = '/option';
   //course
   static String interestPage = '/interest';
+  static String collegeQuestionPage = '/collegeQuestionPage';
+  static String universityQuestionPage = '/universityQuestionPage';
 }

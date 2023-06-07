@@ -4,6 +4,7 @@ import 'package:career_finder/View/Utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'Utils/routes.dart';
 import 'home_page.dart';
 
 class OptionPage extends StatelessWidget {
@@ -51,10 +52,14 @@ class CustomSkipButton extends StatelessWidget {
     return Container(
       alignment: Alignment.centerRight,
       child: TextButton(
-        child: const Row(
+        child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Skip', textScaleFactor: 1.5),
+            GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, MyRoutes.homePage);
+                },
+                child: Text('Skip', textScaleFactor: 1.5)),
             Icon(CupertinoIcons.forward),
           ],
         ),
@@ -88,7 +93,7 @@ class CustomOption extends ConsumerWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>  CampusQuestion(
+                  builder: (context) => CampusQuestion(
                     college: false,
                   ),
                 ));
