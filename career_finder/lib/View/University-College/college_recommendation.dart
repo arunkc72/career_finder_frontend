@@ -2,11 +2,9 @@ import 'package:career_finder/Model/college_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../Contoller/college_repository.dart';
 import '../Utils/constants.dart';
-import '../Utils/routes.dart';
-import 'individual_page.dart';
+import 'CollegeIndividualPage.dart';
 
 final collegeFutureProvider = FutureProvider<List<College>>((ref) async {
   var college = ref.watch(collegeServiceProvider);
@@ -97,7 +95,7 @@ class CollegeRecommendation extends ConsumerWidget {
                           onTap: () {
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
-                              return IndividualPage(
+                              return CollegeIndividualPage(
                                   image: 'assets/images/college.jpg',
                                   university:
                                       data[index].college_name.toString(),
@@ -105,8 +103,10 @@ class CollegeRecommendation extends ConsumerWidget {
                                       data[index].college_address.toString(),
                                   city:
                                       data[index].college_city_name.toString(),
-                                  description:
-                                      data[index].college_city_name.toString());
+                                  subject1: data[index].subject1.toString(),
+                                  subject2: data[index].subject2.toString(),
+                                  subject3: data[index].subject3.toString(),
+                                  description: "");
                             }));
                           },
                           child: Column(

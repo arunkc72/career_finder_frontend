@@ -51,11 +51,16 @@ class _LoginPageState extends State<LoginPage> {
       });
       loginaccess = false;
     }
-    final url = Uri.parse('http://192.168.18.5:3000/auth/login');
+    final url = Uri.parse('http://localhost:3000/auth/login');
     final headers = {'Content-Type': 'application/json'};
     final response = await http.post(url,
         headers: headers,
         body: jsonEncode({"email": emailValue, "password": passwordValue}));
+    
+    var data =jsonDecode(response.body);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = data['token'];
+    prefs.setString('token', token);
 
     if (response.statusCode == 200) {
       print('successfully login');
@@ -119,7 +124,7 @@ class _LoginPageState extends State<LoginPage> {
                           decoration: const InputDecoration(
                             fillColor: Colors.white,
                             filled: true,
-                            hintText: 'Email or User name',
+                            hintText: 'Email or Username',
                             border: UnderlineInputBorder(
                                 borderSide: BorderSide.none),
                           ),

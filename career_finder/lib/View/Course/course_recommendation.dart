@@ -26,12 +26,12 @@ final courseFutureProvider = FutureProvider.autoDispose<List>((ref) async {
   if (value == null) {
     return [];
   }
-  List<int> intList = value!.map((str) => int.parse(str)).toList();
+  List<int> intList = value.map((str) => int.parse(str)).toList();
 
   print("Course Preferences Saved to Sesssion");
   var body2 = jsonEncode({"interest": intList});
   var response = await http.post(
-    Uri.parse('http://192.168.18.5:5000/recommendSubject'),
+    Uri.parse('http://localhost:5000/recommendSubject'),
     headers: {
       "Content-type": "application/json",
     },

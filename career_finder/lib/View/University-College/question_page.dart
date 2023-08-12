@@ -279,7 +279,7 @@ class _CampusQuestionState extends ConsumerState<CampusQuestion> {
                       hintText: 'Enter a number between 1.0 to 4.0',
                     ),
                     inputFormatters: [
-                      LengthLimitingTextInputFormatter(3),
+                      LengthLimitingTextInputFormatter(4),
                     ],
                     keyboardType:
                         const TextInputType.numberWithOptions(decimal: true),
@@ -300,7 +300,7 @@ class _CampusQuestionState extends ConsumerState<CampusQuestion> {
               const SizedBox(height: 20),
               Text(
                 widget.college
-                    ? 'Enter your address'
+                    ? 'Enter address'
                     : 'Which country university are you looking for?',
                 style: mytitlemedium(context),
               ),

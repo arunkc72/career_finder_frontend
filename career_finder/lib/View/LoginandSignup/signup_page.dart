@@ -71,7 +71,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
       signupaccess = false;
     }
     if (signupaccess = true) {
-      final url = Uri.parse('http://192.168.18.5:3000/auth/signup');
+      final url = Uri.parse('http://localhost:3000/auth/signup');
       final headers = {'Content-Type': 'application/json'};
 
       final response = await http.post(url,

@@ -1,12 +1,48 @@
+import 'dart:convert';
+
 import 'package:career_finder/View/Utils/constants.dart';
 import 'package:career_finder/View/Utils/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-class ProfilePage extends StatelessWidget {
+import 'package:http/http.dart'as http;
+class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  String name ='Abiral Pokhrel';
+  String email='@abiral123';
+  // GetUserData() async {
+    
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   String? token = prefs.getString('token');
+
+  //   var response = await http.get(
+  //     Uri.parse('http://192.168.18.5:3000/auth/users'),
+  //     headers: {
+  //       "Content-type": "application/json",
+  //       "Authorization":"Bearer $token"
+  //     },
+  //   );
+  //   var decode = jsonDecode(response.body);
+  //   setState(() {
+  //     name = decode['name'];
+  //   email =decode['email'];
+  //   });
+    
+  // }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    //GetUserData();
+
+  }
   @override
   Widget build(BuildContext context) {
     ListTile myListTile(String logo, String title, String? subtitle) {
@@ -53,17 +89,17 @@ class ProfilePage extends StatelessWidget {
                         width: 5,
                       ),
                       image: const DecorationImage(
-                        image: AssetImage('assets/images/optionuniversity.png'),
+                        image: AssetImage('assets/images/user.png'),
                         fit: BoxFit.cover,
                       ),
                     ),
                   ),
                 ),
-                title: Text('Abiral Pokhrel',
+                title: Text(name,
                     style:
                         myLargeTitle(context)!.copyWith(color: Colors.white)),
-                subtitle: const Text(
-                  '@abiral 1234',
+                subtitle:  Text(
+                  email,
                   style: TextStyle(color: Colors.white),
                 ),
               ),
@@ -120,7 +156,6 @@ class ProfilePage extends StatelessWidget {
             children: [
               GestureDetector(
                   onTap: () async {
-                    print("Hello");
                     SharedPreferences courseSession =
                         await SharedPreferences.getInstance();
                     List<String>? interest =

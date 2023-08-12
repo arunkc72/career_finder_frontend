@@ -24,7 +24,7 @@ class _VerifyEmailState extends ConsumerState<VerifyEmail> {
   }
 
   sendOtp(BuildContext context) async {
-    final url = Uri.parse('http://192.168.18.5:3000/otp/generateOTP');
+    final url = Uri.parse('http://192.168.18.142:3000/otp/generateOTP');
     final headers = {'Content-Type': 'application/json'};
     final updatedEmail = ref.watch(emailStateProvider);
     final response = await http.post(url,

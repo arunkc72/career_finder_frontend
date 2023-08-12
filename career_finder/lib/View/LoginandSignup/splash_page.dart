@@ -12,15 +12,20 @@ class SplashScreen extends StatefulWidget {
 
 class SplashScreenState extends State<SplashScreen> {
   @override
-  void initState() async {
+  void initState() {
+    super.initState();
+    navigateToNextScreen();
+  }
+
+  void navigateToNextScreen() async {
     SharedPreferences loggedIn = await SharedPreferences.getInstance();
     String? loginId = loggedIn.getString('state');
 
-    Future.delayed(const Duration(seconds: 2)).then((value) =>
-        loginId == "logged"
-            ? Navigator.pushReplacementNamed(context, MyRoutes.homePage)
-            : Navigator.pushReplacementNamed(context, MyRoutes.loginPage));
-    super.initState();
+    Future.delayed(const Duration(seconds: 2)).then((value) {
+      loginId == "logged"
+          ? Navigator.pushReplacementNamed(context, MyRoutes.homePage)
+          : Navigator.pushReplacementNamed(context, MyRoutes.loginPage);
+    });
   }
 
   final splashlogo = 'assets/images/splashimage.png';

@@ -71,7 +71,7 @@ class UniversityService {
     print(decodedBody);
 
     var response = await http.post(
-      Uri.parse('http://192.168.18.5:5000/recommendUniversities'),
+      Uri.parse('http://localhost:5000/recommendUniversities'),
       headers: {
         "Content-type": "application/json",
       },
