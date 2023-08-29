@@ -65,14 +65,14 @@ class _SignupPageState extends State<SignupPage> {
       signupaccess = false;
     }
     if (signupaccess = true) {
-      final url = Uri.parse('http://192.168.1.70:3000/auth/signup');
+      final url = Uri.parse('$myurl:3000/auth/signup');
       final headers = {'Content-Type': 'application/json'};
 
       final response = await http.post(url,
           headers: headers,
           body: jsonEncode({
             "name": usernameValue,
-            "email": "monkey1@gmail.com",
+            "email": "monkey1@.com",
             "phoneNumber": phoneValue,
             "password": passwordValue,
             "confirmPassword": confirmValue

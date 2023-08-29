@@ -7,17 +7,37 @@ import '../Utils/custom_backbotton.dart';
 import '../option_page.dart';
 import 'job_question.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 final jobAddProvider =
     StateNotifierProvider<JobNotifier, JobAdd>((ref) => JobNotifier());
 
-class JobSubmisssion extends ConsumerWidget {
-  const JobSubmisssion({super.key});
+class JobSubmission extends ConsumerStatefulWidget {
+  const JobSubmission({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NmUzNTQwNmE2MmE2NDMxNTQwZDFiNyIsImlhdCI6MTY5MzMyNDc3NywiZXhwIjoxNjkzMzI4Mzc3fQ.UiNnjjgVCMagw_cCRGgAMQYJmjbuQTAzLdFRJ4NvriQ';
+  ConsumerState<ConsumerStatefulWidget> createState() => _JobSubmissionState();
+}
+
+class _JobSubmissionState extends ConsumerState<JobSubmission> {
+  final storage = const FlutterSecureStorage();
+  String token = '';
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getToken();
+  }
+
+  getToken() async {
+    String? storedtoken = await storage.read(key: 'token');
+    setState(() {
+      token = storedtoken!;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final jobNotifier = ref.read(jobAddProvider.notifier);
     postjobdata(WidgetRef ref) async {
       try {

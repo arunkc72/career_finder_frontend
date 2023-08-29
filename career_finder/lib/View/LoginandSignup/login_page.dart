@@ -5,6 +5,7 @@ import 'package:career_finder/View/Utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -14,6 +15,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final storage = FlutterSecureStorage();
   final facebookLogo = 'assets/logos/fblogo.svg';
   final appleLogo = 'assets/logos/applelogo.svg';
   final googleLogo = 'assets/logos/googlelogo.svg';
@@ -50,13 +52,21 @@ class _LoginPageState extends State<LoginPage> {
       });
       loginaccess = false;
     }
-    final url = Uri.parse('http://192.168.1.70:3000/auth/login');
+    final url = Uri.parse('$myurl:3000/auth/login');
     final headers = {'Content-Type': 'application/json'};
     final response = await http.post(url,
         headers: headers,
         body: jsonEncode({"email": emailValue, "password": passwordValue}));
-
+    
+settoken(String value) async {
+      await storage.write(key: 'token', value: value);
+    }
     if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      String token = data['token'];
+      settoken(token);
+
+
       print('successfully login');
     } else {
       setState(() {
@@ -66,7 +76,6 @@ class _LoginPageState extends State<LoginPage> {
       print('Login failed. Error: ${response.statusCode}');
     }
     if (loginaccess) {
-     
       await Future.delayed(const Duration(seconds: 1), () {
         Navigator.pushNamed(context, MyRoutes.optionPage);
       });

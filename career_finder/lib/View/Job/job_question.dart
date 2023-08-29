@@ -64,7 +64,7 @@ class JobQuestion extends ConsumerWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const JobSubmisssion()));
+                      builder: (context) => const JobSubmission()));
             },
             child: const Text('View Result', textScaleFactor: 2)),
       ),
