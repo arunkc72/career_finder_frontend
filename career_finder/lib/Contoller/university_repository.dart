@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import '../Model/university_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../View/Utils/constants.dart';
+
 final universityServiceProvider = Provider<UniversityService>((ref) {
   return UniversityService(ref);
 });
@@ -31,7 +33,7 @@ class UniversityService {
     // var headers = {"Content-type": "application/json"};
     // var uri = Uri.parse('http://127.0.0.1:5000//universities');
     var response = await http.post(
-      Uri.parse('http://192.168.1.70:5000/recommendUniversities'),
+      Uri.parse('$myurl:5000/recommendUniversities'),
       headers: {
         "Content-type": "application/json",
       },

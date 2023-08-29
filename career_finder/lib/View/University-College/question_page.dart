@@ -202,7 +202,7 @@ class _CampusQuestionState extends ConsumerState<CampusQuestion> {
               ),
               const SizedBox(height: 10),
               Text(
-                'Enter our GPA in ${widget.college ? 'school' : '+2'}?',
+                'Enter your GPA in ${widget.college ? 'school' : '+2'}?',
                 style: mytitlemedium(context),
               ),
               Card(

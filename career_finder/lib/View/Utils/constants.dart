@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+const myurl = 'http://192.168.1.68';
 const myPrimaryColor = Color(0xff0E387A);
 const mybackgroundcolor = Color(0xffF7F1E3);
 const myLightTextColor = Color(0xFF1D1D35);
@@ -26,7 +27,7 @@ double mywidth(BuildContext context) {
 }
 
 double myheight(BuildContext context) {
-  return MediaQuery.of(context).size.width;
+  return MediaQuery.of(context).size.height;
 }
 
 // for the default text of main headline

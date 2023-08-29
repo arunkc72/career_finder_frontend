@@ -12,7 +12,7 @@ final courseFutureProvider = FutureProvider.autoDispose<List>((ref) async {
   List<String> interest = ref.read(interestProvider.notifier).state;
   var body = jsonEncode({"interest": interest});
   var response = await http.post(
-    Uri.parse('http://192.168.1.70:5000/recommendSubject'),
+    Uri.parse('$myurl:5000/recommendSubject'),
     headers: {
       "Content-type": "application/json",
     },

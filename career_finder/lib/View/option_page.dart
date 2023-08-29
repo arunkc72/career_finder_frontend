@@ -1,4 +1,5 @@
 import 'package:career_finder/View/Course/interest_page.dart';
+import 'package:career_finder/View/Job/job_question.dart';
 import 'package:career_finder/View/University-College/question_page.dart';
 import 'package:career_finder/View/Utils/constants.dart';
 import 'package:flutter/cupertino.dart';
@@ -31,7 +32,7 @@ class OptionPage extends StatelessWidget {
           const CustomOption(
               text: 'Course to Study', image: optioncourse, index: 1),
           const Spacer(flex: 1),
-          const CustomOption(text: 'Placement', image: optionjob, index: 2),
+          const CustomOption(text: 'Jobs', image: optionjob, index: 2),
           const Spacer(flex: 1),
           const CustomOption(text: 'College', image: optioncollege, index: 3),
           const Spacer(flex: 15),
@@ -58,7 +59,13 @@ class CustomSkipButton extends StatelessWidget {
             Icon(CupertinoIcons.forward),
           ],
         ),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HomePage(),
+              ));
+        },
       ),
     );
   }
@@ -88,7 +95,7 @@ class CustomOption extends ConsumerWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>  CampusQuestion(
+                  builder: (context) => CampusQuestion(
                     college: false,
                   ),
                 ));
@@ -107,9 +114,7 @@ class CustomOption extends ConsumerWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const CampusQuestion(
-                    college: false,
-                  ),
+                  builder: (context) => const JobQuestion(),
                 ));
             break;
           case 3:
