@@ -1,4 +1,3 @@
-import 'package:career_finder/View/Job/job_submission.dart';
 import 'package:career_finder/View/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,15 +22,19 @@ class JobQuestion extends ConsumerWidget {
       try {
         final job = ref.watch(jobProvider);
         final jobdata = Job(
-            position: job.position,
-            qualification: job.qualification,
-            city: job.city,
-            experience: job.experience);
-        final response = await http.post(Uri.parse('$myurl:3000/jobs/jobs'),
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: jobdata.toJson());
+            jobTitle: job.jobTitle,
+            requiredQualification: job.requiredQualification,
+            jobLocation: job.jobLocation,
+            experience: job.experience,
+            salary: job.salary,
+            jobType: job.jobType);
+        final response =
+            await http.post(Uri.parse('http://192.168.1.68:5000/recommendJobs'),
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: jobdata.toJson());
+        print(jobdata.toJson());
         if (response.statusCode == 201) {
           Navigator.push(
               context,
@@ -60,11 +63,7 @@ class JobQuestion extends ConsumerWidget {
               fixedSize: Size(mywidth(context), 50),
             ),
             onPressed: () {
-              // postjob(ref);
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const JobSubmission()));
+              postjob(ref);
             },
             child: const Text('View Result', textScaleFactor: 2)),
       ),
@@ -84,25 +83,30 @@ class JobQuestion extends ConsumerWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                'What position do you want to apply in ? ',
+                'What jobTitle do you want to apply in ? ',
                 style: mytitlemedium(context),
               ),
+              SizedBox(height: 10),
               Card(
                 elevation: 10,
-                child: SizedBox(
-                  height: 60,
-                  child: TextFormField(
-                    cursorHeight: 30,
-                    decoration: const InputDecoration(
-                        border: UnderlineInputBorder(
-                          borderSide: BorderSide.none,
-                        ),
-                        labelText: 'Position Name'),
-                  ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton(
+                      isExpanded: true,
+                      icon: const Icon(
+                        Icons.keyboard_arrow_down,
+                        size: 40,
+                      ),
+                      itemHeight: 60,
+                      value: ref.watch(jobProvider).jobTitle,
+                      items: positionlist,
+                      onChanged: (value) {
+                        jobPreferences.setjobTitle(value);
+                      }),
                 ),
               ),
+              SizedBox(height: 10),
               Text(
-                'What is your academic qualifications? ',
+                'What is your academic requiredQualifications? ',
                 style: mytitlemedium(context),
               ),
               const SizedBox(height: 10),
@@ -110,24 +114,24 @@ class JobQuestion extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomSelectionButton(
-                      isSelected: ref.watch(jobProvider).qualification == '+2',
-                      onpressed: () => jobPreferences.setQualification('+2'),
+                      isSelected: ref.watch(jobProvider).requiredQualification == '+2',
+                      onpressed: () => jobPreferences.setrequiredQualification('+2'),
                       text: '+2'),
                   CustomSelectionButton(
                       isSelected:
-                          ref.watch(jobProvider).qualification == 'Bachelor',
+                          ref.watch(jobProvider).requiredQualification == 'Bachelor',
                       onpressed: () =>
-                          jobPreferences.setQualification('Bachelor'),
+                          jobPreferences.setrequiredQualification('Bachelor'),
                       text: 'Bachelor'),
                   CustomSelectionButton(
                       isSelected:
-                          ref.watch(jobProvider).qualification == 'Masters',
+                          ref.watch(jobProvider).requiredQualification == 'Masters',
                       onpressed: () =>
-                          jobPreferences.setQualification('Masters'),
+                          jobPreferences.setrequiredQualification('Masters'),
                       text: 'Masters'),
                   CustomSelectionButton(
-                      isSelected: ref.watch(jobProvider).qualification == 'PHD',
-                      onpressed: () => jobPreferences.setQualification('PHD'),
+                      isSelected: ref.watch(jobProvider).requiredQualification == 'PHD',
+                      onpressed: () => jobPreferences.setrequiredQualification('PHD'),
                       text: 'PHD'),
                 ],
               ),
@@ -135,8 +139,28 @@ class JobQuestion extends ConsumerWidget {
                 height: 10,
               ),
               Text(
-                'Do you want your job to be in your city? ',
+                'Select Job Location',
                 style: mytitlemedium(context),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Card(
+                elevation: 10,
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton(
+                      isExpanded: true,
+                      icon: const Icon(
+                        Icons.keyboard_arrow_down,
+                        size: 40,
+                      ),
+                      itemHeight: 60,
+                      value: ref.watch(jobProvider).jobLocation,
+                      items: citylist,
+                      onChanged: (value) {
+                        jobPreferences.setjobLocation(value);
+                      }),
+                ),
               ),
               const SizedBox(
                 height: 10,
@@ -144,38 +168,81 @@ class JobQuestion extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomSelectionButton(
-                      isSelected: ref.watch(jobProvider).city == 'Yes',
-                      onpressed: () => jobPreferences.setcity('Yes'),
-                      text: 'Yes'),
-                  CustomSelectionButton(
-                      isSelected: ref.watch(jobProvider).city == 'No',
-                      onpressed: () => jobPreferences.setcity('No'),
-                      text: 'No'),
-                  CustomSelectionButton(
-                      isSelected:
-                          ref.watch(jobProvider).city == 'Not important',
-                      onpressed: () => jobPreferences.setcity('Not important'),
-                      text: 'Not important'),
+                  Column(
+                    children: [
+                      Text(
+                        'Experience',
+                        style: mytitlemedium(context),
+                      ),
+                      const SizedBox(height: 5),
+                      Card(
+                        elevation: 10,
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton(
+                              icon: const Icon(
+                                Icons.keyboard_arrow_down,
+                                size: 40,
+                              ),
+                              itemHeight: 60,
+                              value: ref.watch(jobProvider).experience,
+                              items: experiencelist,
+                              onChanged: (value) {
+                                jobPreferences.setExperience(value);
+                              }),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text(
+                        'Salary',
+                        style: mytitlemedium(context),
+                      ),
+                      const SizedBox(height: 5),
+                      Card(
+                        elevation: 10,
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton(
+                              icon: const Icon(
+                                Icons.keyboard_arrow_down,
+                                size: 40,
+                              ),
+                              itemHeight: 60,
+                              value: ref.watch(jobProvider).salary,
+                              items: salarylist,
+                              onChanged: (value) {
+                                jobPreferences.setSalary(value);
+                              }),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
-              const SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: 10),
               Text(
-                'How many years of experience do you have in this field ?',
+                'Job type? ',
                 style: mytitlemedium(context),
               ),
-              const SizedBox(
-                height: 10,
-              ),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                for (var i = 1; i <= 5; i++)
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
                   CustomSelectionButton(
-                      isSelected: ref.watch(jobProvider).experience == i,
-                      onpressed: () => jobPreferences.setExperience(i),
-                      text: i.toString())
-              ]),
+                      isSelected: ref.watch(jobProvider).jobType == 'Remote',
+                      onpressed: () => jobPreferences.setJobType('Remote'),
+                      text: 'Remote'),
+                  CustomSelectionButton(
+                      isSelected: ref.watch(jobProvider).jobType == 'On-site',
+                      onpressed: () => jobPreferences.setJobType('On-site'),
+                      text: 'On-site'),
+                  CustomSelectionButton(
+                      isSelected: ref.watch(jobProvider).jobType == 'Hybrid',
+                      onpressed: () => jobPreferences.setJobType('Hybrid'),
+                      text: 'Hybrid'),
+                ],
+              ),
               const SizedBox(
                 height: 10,
               ),

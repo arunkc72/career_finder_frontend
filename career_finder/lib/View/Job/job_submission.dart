@@ -7,7 +7,7 @@ import '../Utils/custom_backbotton.dart';
 import '../option_page.dart';
 import 'job_question.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final jobAddProvider =
     StateNotifierProvider<JobNotifier, JobAdd>((ref) => JobNotifier());
@@ -20,7 +20,6 @@ class JobSubmission extends ConsumerStatefulWidget {
 }
 
 class _JobSubmissionState extends ConsumerState<JobSubmission> {
-  final storage = const FlutterSecureStorage();
   String token = '';
   @override
   void initState() {
@@ -30,8 +29,9 @@ class _JobSubmissionState extends ConsumerState<JobSubmission> {
   }
 
   getToken() async {
-    String? storedtoken = await storage.read(key: 'token');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
+      String? storedtoken = prefs.getString('token');
       token = storedtoken!;
     });
   }
@@ -58,7 +58,6 @@ class _JobSubmissionState extends ConsumerState<JobSubmission> {
               'Authorization': 'Bearer $token',
             },
             body: newjob.toJson());
-        print(newjob.toJson());
         if (response.statusCode == 201) {
           return ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Data uploaded successfully')),
@@ -70,23 +69,6 @@ class _JobSubmissionState extends ConsumerState<JobSubmission> {
         print('Error occured: $e');
       }
     }
-
-    List<String> experience = [
-      '1 year',
-      '2 years',
-      '3 years',
-      '4 years',
-      '5+ years'
-    ];
-    List<DropdownMenuItem> experiencelist = List.generate(
-        experience.length,
-        (index) => DropdownMenuItem(
-            value: experience[index], child: Text(experience[index])));
-    List<String> salary = ['<15K', '15k-25k', '25k-50k', '50k-100k', '100k+'];
-    List<DropdownMenuItem> salarylist = List.generate(
-        experience.length,
-        (index) =>
-            DropdownMenuItem(value: salary[index], child: Text(salary[index])));
 
     return Scaffold(
       bottomNavigationBar: Padding(
@@ -122,22 +104,24 @@ class _JobSubmissionState extends ConsumerState<JobSubmission> {
               ),
               const SizedBox(height: 10),
               Text(
-                'Enter job title ? ',
+                'Select job position',
                 style: mytitlemedium(context),
               ),
               Card(
                 elevation: 10,
-                child: SizedBox(
-                  height: 60,
-                  child: TextFormField(
-                    cursorHeight: 30,
-                    onChanged: (value) => jobNotifier.setJobTitle(value),
-                    decoration: const InputDecoration(
-                        border: UnderlineInputBorder(
-                          borderSide: BorderSide.none,
-                        ),
-                        labelText: 'Job title'),
-                  ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton(
+                      isExpanded: true,
+                      icon: const Icon(
+                        Icons.keyboard_arrow_down,
+                        size: 40,
+                      ),
+                      itemHeight: 60,
+                      value: ref.watch(jobAddProvider).jobTitle,
+                      items: positionlist,
+                      onChanged: (value) {
+                        jobNotifier.setJobTitle(value);
+                      }),
                 ),
               ),
               const SizedBox(height: 10),
@@ -164,25 +148,45 @@ class _JobSubmissionState extends ConsumerState<JobSubmission> {
               ),
               const SizedBox(height: 10),
               Text(
-                'Enter your required qualifications? ',
+                'Required qualifications? ',
                 style: mytitlemedium(context),
               ),
               const SizedBox(height: 10),
-              Card(
-                elevation: 10,
-                child: SizedBox(
-                  height: 60,
-                  child: TextFormField(
-                    onChanged: (value) => jobNotifier.setCompanyName(value),
-                    cursorHeight: 30,
-                    decoration: const InputDecoration(
-                        border: UnderlineInputBorder(
-                          borderSide: BorderSide.none,
-                        ),
-                        labelText: 'Required Qualification'),
-                  ),
-                ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CustomSelectionButton(
+                      isSelected:
+                          ref.watch(jobAddProvider).requiredQualification ==
+                              '+2',
+                      onpressed: () =>
+                          jobNotifier.setRequiredQualification('+2'),
+                      text: '+2'),
+                  CustomSelectionButton(
+                      isSelected:
+                          ref.watch(jobAddProvider).requiredQualification ==
+                              'Bachelor',
+                      onpressed: () =>
+                          jobNotifier.setRequiredQualification('Bachelor'),
+                      text: 'Bachelor'),
+                  CustomSelectionButton(
+                      isSelected:
+                          ref.watch(jobAddProvider).requiredQualification ==
+                              'Masters',
+                      onpressed: () =>
+                          jobNotifier.setRequiredQualification('Masters'),
+                      text: 'Masters'),
+                  CustomSelectionButton(
+                      isSelected:
+                          ref.watch(jobAddProvider).requiredQualification ==
+                              'PHD',
+                      onpressed: () =>
+                          jobNotifier.setRequiredQualification('PHD'),
+                      text: 'PHD'),
+                ],
               ),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -246,17 +250,18 @@ class _JobSubmissionState extends ConsumerState<JobSubmission> {
               const SizedBox(height: 10),
               Card(
                 elevation: 10,
-                child: SizedBox(
-                  height: 60,
-                  child: TextFormField(
-                    onChanged: (value) => jobNotifier.setJobLocation(value),
-                    cursorHeight: 30,
-                    decoration: const InputDecoration(
-                        border: UnderlineInputBorder(
-                          borderSide: BorderSide.none,
-                        ),
-                        labelText: 'Job Location'),
-                  ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton(
+                      icon: const Icon(
+                        Icons.keyboard_arrow_down,
+                        size: 40,
+                      ),
+                      itemHeight: 60,
+                      value: ref.watch(jobAddProvider).jobLocation,
+                      items: citylist,
+                      onChanged: (value) {
+                        jobNotifier.setJobLocation(value);
+                      }),
                 ),
               ),
               const SizedBox(height: 10),

@@ -4,32 +4,40 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class Job {
-  final String position;
-  final String qualification;
-  final String city;
-  final int experience;
+  final String jobTitle;
+  final String requiredQualification;
+  final String jobLocation;
+  final String experience;
+  final String salary;
+  final String jobType;
   Job({
-    required this.position,
-    required this.qualification,
-    required this.city,
+    required this.jobTitle,
+    required this.requiredQualification,
+    required this.jobLocation,
     required this.experience,
+    required this.salary,
+    required this.jobType,
   });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'position': position,
-      'qualification': qualification,
-      'city': city,
+      'jobTitle': jobTitle,
+      'requiredQualification': requiredQualification,
+      'jobLocation': jobLocation,
       'experience': experience,
+      'salary': salary,
+      'jobType': jobType,
     };
   }
 
   factory Job.fromMap(Map<String, dynamic> map) {
     return Job(
-      position: map['position'] as String,
-      qualification: map['qualification'] as String,
-      city: map['city'] as String,
-      experience: map['experience'] as int,
+      jobTitle: map['jobTitle'] as String,
+      requiredQualification: map['requiredQualification'] as String,
+      jobLocation: map['jobLocation'] as String,
+      experience: map['experience'] as String,
+      salary: map['salary'] as String,
+      jobType: map['jobType'] as String,
     );
   }
 
@@ -39,36 +47,83 @@ class Job {
       Job.fromMap(json.decode(source) as Map<String, dynamic>);
 
   Job copyWith({
-    String? position,
-    String? qualification,
-    String? city,
-    int? experience,
+    String? jobTitle,
+    String? requiredQualification,
+    String? jobLocation,
+    String? experience,
+    String? salary,
+    String? jobType,
   }) {
     return Job(
-      position: position ?? this.position,
-      qualification: qualification ?? this.qualification,
-      city: city ?? this.city,
+      jobTitle: jobTitle ?? this.jobTitle,
+      requiredQualification: requiredQualification ?? this.requiredQualification,
+      jobLocation: jobLocation ?? this.jobLocation,
       experience: experience ?? this.experience,
+      salary: salary ?? this.salary,
+      jobType: jobType ?? this.jobType,
     );
+  }
+
+  @override
+  String toString() {
+    return 'Job(jobTitle: $jobTitle, requiredQualification: $requiredQualification, jobLocation: $jobLocation, experience: $experience, salary: $salary, jobType: $jobType)';
+  }
+
+  @override
+  bool operator ==(covariant Job other) {
+    if (identical(this, other)) return true;
+  
+    return 
+      other.jobTitle == jobTitle &&
+      other.requiredQualification == requiredQualification &&
+      other.jobLocation == jobLocation &&
+      other.experience == experience &&
+      other.salary == salary &&
+      other.jobType == jobType;
+  }
+
+  @override
+  int get hashCode {
+    return jobTitle.hashCode ^
+      requiredQualification.hashCode ^
+      jobLocation.hashCode ^
+      experience.hashCode ^
+      salary.hashCode ^
+      jobType.hashCode;
   }
 }
 
 class JobPreferences extends StateNotifier<Job> {
-  JobPreferences() : super(
-    Job(position: '', qualification: '', city: '', experience: 0)
-  );
-  void setPosition(String position) {
-    state = state.copyWith(position: position);
+  JobPreferences()
+      : super(Job(
+          jobTitle: 'Frontend Developer',
+          requiredQualification: '',
+          jobLocation: 'Kathmandu',
+          experience: '1 year',
+          jobType: '',
+          salary: '<15K',
+        ));
+  void setjobTitle(String jobTitle) {
+    state = state.copyWith(jobTitle: jobTitle);
   }
-  void setQualification(String qualification) {
-    state = state.copyWith(qualification: qualification);
+
+  void setrequiredQualification(String requiredQualification) {
+    state = state.copyWith(requiredQualification: requiredQualification);
   }
-  void setcity(String city) {
-    state = state.copyWith(city: city);
+
+  void setjobLocation(String jobLocation) {
+    state = state.copyWith(jobLocation: jobLocation);
   }
-  void setExperience(int experience) {
+
+  void setExperience(String experience) {
     state = state.copyWith(experience: experience);
   }
 
+  void setSalary(String salary) {
+    state = state.copyWith(salary: salary);
+  }
 
+  void setJobType(String type) {
+    state = state.copyWith(jobType: type);
+  }
 }

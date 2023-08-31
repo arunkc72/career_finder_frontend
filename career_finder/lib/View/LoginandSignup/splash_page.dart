@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Utils/routes.dart';
 
@@ -12,10 +13,21 @@ class SplashScreen extends StatefulWidget {
 class SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 2)).then(
-        (value) => Navigator.pushReplacementNamed(context, MyRoutes.loginPage));
+    Future.delayed(const Duration(seconds: 2)).then((value) => nextpage());
     super.initState();
   }
+
+  nextpage() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? loginToken = prefs.getString('token');
+  if (!mounted) return;
+  if (loginToken == null) {
+    return Navigator.pushReplacementNamed(context, MyRoutes.loginPage);
+  } else {
+    return Navigator.pushReplacementNamed(context, MyRoutes.optionPage);
+  }
+}
+
 
   final splashlogo = 'assets/images/splashimage.png';
 

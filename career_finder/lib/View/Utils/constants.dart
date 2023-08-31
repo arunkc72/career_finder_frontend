@@ -62,3 +62,35 @@ final interestStateProvider = StateProvider<List<String>>((ref) {
     'Social media and internet'
   ];
 });
+    List<String> position = [
+      'Frontend Developer',
+      'Backend Developer',
+      'Designer',
+      'Tester',
+      'Quality Assurance'
+    ];
+    List<DropdownMenuItem> positionlist = List.generate(
+        position.length,
+        (index) => DropdownMenuItem(
+            value: position[index], child: Text(position[index])));
+    List<String> experience = [
+      '1 year',
+      '2 years',
+      '3 years',
+      '4 years',
+      '5+ years'
+    ];
+    List<DropdownMenuItem> experiencelist = List.generate(
+        experience.length,
+        (index) => DropdownMenuItem(
+            value: experience[index], child: Text(experience[index])));
+    List<String> salary = ['<15K', '15k-25k', '25k-50k', '50k-100k', '100k+'];
+    List<DropdownMenuItem> salarylist = List.generate(
+        experience.length,
+        (index) =>
+            DropdownMenuItem(value: salary[index], child: Text(salary[index])));
+    List<String> city = ['Kathmandu', 'Pokhara'];
+    List<DropdownMenuItem> citylist = List.generate(
+        city.length,
+        (index) =>
+            DropdownMenuItem(value: city[index], child: Text(city[index])));

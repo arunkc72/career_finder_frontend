@@ -120,12 +120,12 @@ class JobAdd {
 class JobNotifier extends StateNotifier<JobAdd> {
   JobNotifier()
       : super(JobAdd(
-          jobTitle: '',
+          jobTitle: 'Frontend Developer',
           companyName: '',
           requiredQualification: '',
           experience: '1 year',
           salary: '<15K',
-          jobLocation: '',
+          jobLocation: 'Kathmandu',
           jobType: '',
           contactEmail: '',
           jobDescription: '',
