@@ -16,24 +16,13 @@ class SplashScreenState extends State<SplashScreen> {
   void initState() {
     Future.delayed(const Duration(seconds: 2)).then((value) => nextpage());
     super.initState();
-    navigateToNextScreen();
   }
 
-  void navigateToNextScreen() async {
-    SharedPreferences loggedIn = await SharedPreferences.getInstance();
-    String? loginId = loggedIn.getString('state');
-
-    Future.delayed(const Duration(seconds: 2)).then((value) {
-      loginId == "logged"
-          ? Navigator.pushReplacementNamed(context, MyRoutes.homePage)
-          : Navigator.pushReplacementNamed(context, MyRoutes.loginPage);
-    });
-  }
+  
 
   nextpage() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? loginToken = prefs.getString('token');
-  if (!mounted) return;
   if (loginToken == null) {
     return Navigator.pushReplacementNamed(context, MyRoutes.loginPage);
   } else {

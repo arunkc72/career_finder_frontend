@@ -1,11 +1,10 @@
-import 'dart:convert';
-
+import 'package:career_finder/View/Job/job_submission.dart';
 import 'package:career_finder/View/Utils/constants.dart';
 import 'package:career_finder/View/Utils/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart'as http;
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
@@ -14,10 +13,10 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  String name ='Abiral Pokhrel';
-  String email='@abiral123';
+  String name = 'Abiral Pokhrel';
+  String email = '@abiral123';
   // GetUserData() async {
-    
+
   //   SharedPreferences prefs = await SharedPreferences.getInstance();
   //   String? token = prefs.getString('token');
 
@@ -33,7 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
   //     name = decode['name'];
   //   email =decode['email'];
   //   });
-    
+
   // }
 
   @override
@@ -41,8 +40,8 @@ class _ProfilePageState extends State<ProfilePage> {
     // TODO: implement initState
     super.initState();
     //GetUserData();
-
   }
+
   @override
   Widget build(BuildContext context) {
     ListTile myListTile(String logo, String title, String? subtitle) {
@@ -98,7 +97,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 title: Text(name,
                     style:
                         myLargeTitle(context)!.copyWith(color: Colors.white)),
-                subtitle:  Text(
+                subtitle: Text(
                   email,
                   style: TextStyle(color: Colors.white),
                 ),
@@ -145,7 +144,16 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               myListTile('assets/images/optionjob.png', 'View job preference',
                   'View your job preferences'),
-              myListTile('assets/images/optionjob.png', 'Add New Job', null),
+              GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => JobSubmission(),
+                        ));
+                  },
+                  child: myListTile(
+                      'assets/images/optionjob.png', 'Add New Job', null)),
             ],
           ),
           const SizedBox(height: 10),

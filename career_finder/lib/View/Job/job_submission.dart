@@ -62,8 +62,17 @@ class _JobSubmissionState extends ConsumerState<JobSubmission> {
           return ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Data uploaded successfully')),
           );
-        } else {
-          throw Exception('Failed to submit job application');
+        } 
+        else if (response.statusCode==401){
+          return ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error credentials. Login Again')),
+          );
+
+        }
+        else {
+          return ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error occured.')),
+          );
         }
       } catch (e) {
         print('Error occured: $e');
