@@ -144,15 +144,15 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               GestureDetector(
-                onTap: () {Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => JobQuestion(),
-                        ));
-                  
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => JobQuestion(),
+                      ));
                 },
-                child: myListTile('assets/images/optionjob.png', 'View job preference',
-                    'View your job preferences'),
+                child: myListTile('assets/images/optionjob.png',
+                    'View job preference', 'View your job preferences'),
               ),
               GestureDetector(
                   onTap: () {

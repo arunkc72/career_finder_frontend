@@ -36,6 +36,8 @@ class JobQuestion extends ConsumerWidget {
                 body: jobdata.toJson());
         print(jobdata.toJson());
         if (response.statusCode == 201) {
+              ref.read(indexValueProvider.notifier).update((state) => 2);
+
           Navigator.push(
               context,
               MaterialPageRoute(
