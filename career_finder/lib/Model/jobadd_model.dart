@@ -122,11 +122,11 @@ class JobNotifier extends StateNotifier<JobAdd> {
       : super(JobAdd(
           jobTitle: 'Frontend Developer',
           companyName: '',
-          requiredQualification: '',
+          requiredQualification: '+2',
           experience: '1 year',
           salary: '<15K',
           jobLocation: 'Kathmandu',
-          jobType: '',
+          jobType: 'Remote',
           contactEmail: '',
           jobDescription: '',
         ));

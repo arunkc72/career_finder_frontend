@@ -97,10 +97,10 @@ class JobPreferences extends StateNotifier<Job> {
   JobPreferences()
       : super(Job(
           jobTitle: 'Frontend Developer',
-          requiredQualification: '',
+          requiredQualification: '+2',
           jobLocation: 'Kathmandu',
           experience: '1 year',
-          jobType: '',
+          jobType: 'Remote',
           salary: '<15K',
         ));
   void setjobTitle(String jobTitle) {
