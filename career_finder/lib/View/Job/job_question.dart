@@ -1,3 +1,5 @@
+import 'package:career_finder/View/Job/job_recommendation.dart';
+import 'package:career_finder/View/Utils/routes.dart';
 import 'package:career_finder/View/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,38 +20,23 @@ class JobQuestion extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final jobPreferences = ref.read(jobProvider.notifier);
-    postjob(WidgetRef ref) async {
-      try {
-        final job = ref.watch(jobProvider);
-        final jobdata = Job(
-            jobTitle: job.jobTitle,
-            requiredQualification: job.requiredQualification,
-            jobLocation: job.jobLocation,
-            experience: job.experience,
-            salary: job.salary,
-            jobType: job.jobType);
-        final response =
-            await http.post(Uri.parse('$myurl:5000/recommendJobs'),
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: jobdata.toJson());
-        print(jobdata.toJson());
-        if (response.statusCode == 201) {
-              ref.read(indexValueProvider.notifier).update((state) => 2);
+    // postjob(WidgetRef ref) async {
+    //   try {
+    //     if (ref.watch(jobFutureProvider).hasValue) {
+    //       ref.read(indexValueProvider.notifier).update((state) => 2);
 
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const HomePage(),
-              ));
-        } else {
-          throw Exception('Failed to get data');
-        }
-      } catch (e) {
-        print('Error occured: $e');
-      }
-    }
+    //       Navigator.push(
+    //           context,
+    //           MaterialPageRoute(
+    //             builder: (context) => const HomePage(),
+    //           ));
+    //     } else {
+    //       throw Exception('Failed to get data');
+    //     }
+    //   } catch (e) {
+    //     print('Error occured: $e');
+    //   }
+    // }
 
     return Scaffold(
       bottomNavigationBar: Padding(
@@ -65,7 +52,8 @@ class JobQuestion extends ConsumerWidget {
               fixedSize: Size(mywidth(context), 50),
             ),
             onPressed: () {
-              postjob(ref);
+              // postjob(ref);
+              Navigator.pushNamed(context, MyRoutes.homePage);
             },
             child: const Text('View Result', textScaleFactor: 2)),
       ),
@@ -116,24 +104,30 @@ class JobQuestion extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomSelectionButton(
-                      isSelected: ref.watch(jobProvider).requiredQualification == '+2',
-                      onpressed: () => jobPreferences.setrequiredQualification('+2'),
+                      isSelected:
+                          ref.watch(jobProvider).requiredQualification == '+2',
+                      onpressed: () =>
+                          jobPreferences.setrequiredQualification('+2'),
                       text: '+2'),
                   CustomSelectionButton(
                       isSelected:
-                          ref.watch(jobProvider).requiredQualification == 'Bachelor',
+                          ref.watch(jobProvider).requiredQualification ==
+                              'Bachelor',
                       onpressed: () =>
                           jobPreferences.setrequiredQualification('Bachelor'),
                       text: 'Bachelor'),
                   CustomSelectionButton(
                       isSelected:
-                          ref.watch(jobProvider).requiredQualification == 'Masters',
+                          ref.watch(jobProvider).requiredQualification ==
+                              'Masters',
                       onpressed: () =>
                           jobPreferences.setrequiredQualification('Masters'),
                       text: 'Masters'),
                   CustomSelectionButton(
-                      isSelected: ref.watch(jobProvider).requiredQualification == 'PHD',
-                      onpressed: () => jobPreferences.setrequiredQualification('PHD'),
+                      isSelected:
+                          ref.watch(jobProvider).requiredQualification == 'PHD',
+                      onpressed: () =>
+                          jobPreferences.setrequiredQualification('PHD'),
                       text: 'PHD'),
                 ],
               ),
