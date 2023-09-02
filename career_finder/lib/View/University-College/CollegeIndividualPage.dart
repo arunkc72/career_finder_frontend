@@ -3,24 +3,24 @@ import 'package:flutter/material.dart';
 
 import '../Utils/constants.dart';
 
-class IndividualPage extends StatelessWidget {
+class CollegeIndividualPage extends StatelessWidget {
   final String? image;
   final String? university;
   final String? country;
   final String? city;
-  final String? worldRank;
-  final String? globalScore;
-  final String? enrollment;
+  final String? subject1;
+  final String? subject2;
+  final String? subject3;
   final String description;
-  const IndividualPage({
+  const CollegeIndividualPage({
     Key? key,
     this.image,
     this.university,
     this.country,
     this.city,
-    this.worldRank,
-    this.globalScore,
-    this.enrollment,
+    this.subject1,
+    this.subject2,
+    this.subject3,
     required this.description,
   }) : super(key: key);
 
@@ -84,12 +84,12 @@ class IndividualPage extends StatelessWidget {
                               ),
                               RichText(
                                   text: TextSpan(
-                                      text: 'World Rank : ',
+                                      text: 'Subject 1 : ',
                                       style:
                                           const TextStyle(color: Colors.black),
                                       children: [
                                     TextSpan(
-                                      text: '$worldRank',
+                                      text: '$subject1',
                                       style:
                                           const TextStyle(color: Colors.green),
                                     ),
@@ -99,12 +99,12 @@ class IndividualPage extends StatelessWidget {
                               ),
                               RichText(
                                   text: TextSpan(
-                                      text: 'Global Score : ',
+                                      text: 'Subject 2 : ',
                                       style:
                                           const TextStyle(color: Colors.black),
                                       children: [
                                     TextSpan(
-                                      text: '$globalScore',
+                                      text: '$subject2',
                                       style:
                                           const TextStyle(color: Colors.green),
                                     ),
@@ -114,14 +114,14 @@ class IndividualPage extends StatelessWidget {
                               ),
                               RichText(
                                   text: TextSpan(
-                                      text: 'Enrollment : ',
+                                      text: 'Subject 3 : ',
                                       style:
                                           const TextStyle(color: Colors.black),
                                       children: [
                                     TextSpan(
-                                      text: '$enrollment',
+                                      text: '$subject3',
                                       style:
-                                          const TextStyle(color: Colors.orange),
+                                          const TextStyle(color: Colors.green),
                                     ),
                                   ])),
                               SizedBox(

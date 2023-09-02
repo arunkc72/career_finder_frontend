@@ -14,6 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'View/LoginandSignup/password_recovery.dart';
 import 'View/LoginandSignup/verify_email.dart';
+import 'View/University-College/question_page.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -24,6 +26,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+    ));
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: MyThemes.lighttheme,
@@ -43,6 +48,13 @@ class MyApp extends StatelessWidget {
         MyRoutes.interestPage: (context) => const InterestPage(),
         //home
         MyRoutes.homePage: (context) => const HomePage(),
+        MyRoutes.collegeQuestionPage: (context) => const CampusQuestion(
+              college: true,
+            ),
+        MyRoutes.universityQuestionPage: (context) => const CampusQuestion(
+              college: false,
+            ),
+
         '/abcd': (context) => const ProfilePage(),
       },
     );

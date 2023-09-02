@@ -1,22 +1,27 @@
 import 'dart:convert';
 
+import 'package:career_finder/View/LoginandSignup/verify_email.dart';
 import 'package:career_finder/View/Utils/constants.dart';
 import 'package:career_finder/View/Utils/custom_textfield.dart';
 import 'package:career_finder/View/Utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../Utils/custom_backbotton.dart';
 import '../Utils/custom_button.dart';
 
-class SignupPage extends StatefulWidget {
+class SignupPage extends ConsumerStatefulWidget {
   const SignupPage({super.key});
 
   @override
-  State<SignupPage> createState() => _SignupPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _SignupPageState();
 }
 
-class _SignupPageState extends State<SignupPage> {
+class _SignupPageState extends ConsumerState<SignupPage> {
+  // updateEmail(String email, WidgetRef ref) {
+  //   ref.read(emailStateProvider.notifier).update((state) => email);
+  // }
+
   final _formkey = GlobalKey<FormState>();
   final usernameController = TextEditingController();
   final phoneController = TextEditingController();
@@ -25,6 +30,7 @@ class _SignupPageState extends State<SignupPage> {
   String? _errorUser, _errorPhone, _errorPassword, _errorConfirm;
   bool signupaccess = false;
   void validateform() async {
+    //  final emailValue = emailController.text;
     final usernameValue = usernameController.text;
     final phoneValue = phoneController.text;
     final passwordValue = passwordController.text;
@@ -72,7 +78,7 @@ class _SignupPageState extends State<SignupPage> {
           headers: headers,
           body: jsonEncode({
             "name": usernameValue,
-            "email": "monkey1@.com",
+            "email": ref.watch(emailStateProvider),
             "phoneNumber": phoneValue,
             "password": passwordValue,
             "confirmPassword": confirmValue

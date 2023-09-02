@@ -15,7 +15,7 @@ const optionuniversity = 'assets/images/optionuniversity.png';
 const applogo = 'assets/logos/career_finder_logo.png';
 // bottom nav
 const collegenav = 'assets/images/college_bottom_navigation.png';
-const coursenav = 'assets/images/course_bottom_navigation.png';
+const coursenav = 'assets/images/book.png';
 const jobnav = 'assets/images/job_bottom_navigation.png';
 const universitynav = 'assets/images/university_bottom_navigation.png';
 const profilenav = 'assets/images/profile_bottom_navigation.png';

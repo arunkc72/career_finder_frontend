@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Utils/routes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -15,6 +16,18 @@ class SplashScreenState extends State<SplashScreen> {
   void initState() {
     Future.delayed(const Duration(seconds: 2)).then((value) => nextpage());
     super.initState();
+    navigateToNextScreen();
+  }
+
+  void navigateToNextScreen() async {
+    SharedPreferences loggedIn = await SharedPreferences.getInstance();
+    String? loginId = loggedIn.getString('state');
+
+    Future.delayed(const Duration(seconds: 2)).then((value) {
+      loginId == "logged"
+          ? Navigator.pushReplacementNamed(context, MyRoutes.homePage)
+          : Navigator.pushReplacementNamed(context, MyRoutes.loginPage);
+    });
   }
 
   nextpage() async {

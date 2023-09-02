@@ -56,7 +56,7 @@ class _OtpPageState extends ConsumerState<OtpPage> {
   }
 
   sendOtp() async {
-    final url = Uri.parse('http://192.168.1.70:3000/otp/generateOTP');
+    final url = Uri.parse('http://192.168.18.5:3000/otp/generateOTP');
     final headers = {'Content-Type': 'application/json'};
     final response = await http.post(url,
         headers: headers,
@@ -68,7 +68,7 @@ class _OtpPageState extends ConsumerState<OtpPage> {
   }
 
   confirmOTP() async {
-    final url = Uri.parse('http://192.168.1.70:3000/otp/verifyOTP');
+    final url = Uri.parse('http://192.168.18.5:3000/otp/verifyOTP');
     final headers = {'Content-Type': 'application/json'};
     final response = await http.post(url,
         headers: headers,

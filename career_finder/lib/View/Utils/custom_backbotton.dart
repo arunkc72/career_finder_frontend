@@ -18,12 +18,12 @@ class CustomBackButton extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
           boxShadow: const [
-            BoxShadow(
-              color: Colors.black45,
-              offset: Offset(0, 5),
-              blurRadius: 2,
-              spreadRadius: 0,
-            )
+            // BoxShadow(
+            //   color: Colors.black45,
+            //   offset: Offset(0, 5),
+            //   blurRadius: 2,
+            //   spreadRadius: 0,
+            // )
           ],
         ),
         child: const Icon(CupertinoIcons.back),

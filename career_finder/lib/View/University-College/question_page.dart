@@ -4,6 +4,7 @@ import 'package:career_finder/View/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Utils/constants.dart';
 import '../Utils/custom_backbotton.dart';
@@ -22,17 +23,17 @@ final gradeStateProvider = StateProvider<double>((ref) {
 final countryStateProvider = StateProvider<String>((ref) {
   return 'Australia';
 });
-final cityOptionProvider = StateProvider<int>((ref) {
-  return 1;
-});
+// final cityOptionProvider = StateProvider<int>((ref) {
+//   return 1;
+// });
 final cityStateProvider = StateProvider<String>((ref) {
-  return 'Sydney';
+  return '';
 });
 final courseStateProvider = StateProvider<String>((ref) {
   return 'Computer Science';
 });
 final addressStateProvider = StateProvider<String>((ref) {
-  return 'Lamachaur, Pokhara';
+  return '';
 });
 
 class CampusQuestion extends ConsumerStatefulWidget {
@@ -63,21 +64,28 @@ class _CampusQuestionState extends ConsumerState<CampusQuestion> {
     }
   }
 
+  _selectedIndex(WidgetRef ref, dynamic newIndex) {
+    int newIndex1 = newIndex.toInt();
+
+    ref.read(indexValueProvider.notifier).update((state) => newIndex1);
+  }
+
   _selectedcountry(WidgetRef ref, dynamic country) {
     String newcountry = country.toString();
 
     ref.read(countryStateProvider.notifier).update((state) => newcountry);
   }
 
-  _selectedCity(WidgetRef ref, dynamic country) {
-    String newcountry = country.toString();
+  _selectedCity(WidgetRef ref, dynamic city1) {
+    String newcity = city1.toString();
 
-    ref.read(cityStateProvider.notifier).update((state) => newcountry);
+    ref.read(cityStateProvider.notifier).update((state) => newcity);
   }
-  _selectedAddress(WidgetRef ref, dynamic country) {
-    String newcountry = country.toString();
 
-    ref.read(addressStateProvider.notifier).update((state) => newcountry);
+  _selectedAddress(WidgetRef ref, dynamic address) {
+    String newaddress = address.toString();
+
+    ref.read(addressStateProvider.notifier).update((state) => newaddress);
   }
 
   _selectedCourse(WidgetRef ref, dynamic course) {
@@ -89,12 +97,12 @@ class _CampusQuestionState extends ConsumerState<CampusQuestion> {
   @override
   Widget build(BuildContext context) {
     final List country = [
-      'Australia',
-      'Canada',
-      'Usa',
-      'Japan',
-      'UK',
-      'Denmark',
+      {'country': 'Australia', "image": 'assets/flags/australia.png'},
+      {'country': 'Canada', "image": 'assets/flags/canada.png'},
+      {'country': 'United States', "image": 'assets/flags/usa.png'},
+      {'country': 'Japan', "image": 'assets/flags/japan.png'},
+      {'country': 'United Kingdom', "image": 'assets/flags/uk.png'},
+      {'country': 'India', "image": 'assets/flags/india.png'},
     ];
     final List<String> course = [
       'Computer Science',
@@ -147,19 +155,23 @@ class _CampusQuestionState extends ConsumerState<CampusQuestion> {
     ];
     String selectedCountry = ref.watch(countryStateProvider);
     String selectedCourse = ref.watch(courseStateProvider);
+    var selectedValue = ref.watch(selectorNotifierProvider);
+    var city = ref.watch(cityStateProvider);
+    var gpa = ref.watch(gradeStateProvider);
+    var address = ref.watch(addressStateProvider);
 
     List<DropdownMenuItem> countrylist = List.generate(
       6,
       (index) => DropdownMenuItem(
-        value: country[index],
+        value: country[index]['country'],
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const SizedBox(width: 10),
-            Text(country[index].toString()),
+            Text(country[index]['country'].toString()),
             const SizedBox(width: 10),
             Image.asset(
-              optionuniversity,
+              country[index]['image'],
               height: 40,
               width: 40,
             ),
@@ -181,10 +193,56 @@ class _CampusQuestionState extends ConsumerState<CampusQuestion> {
               fixedSize: Size(mywidth(context), 50),
             ),
             onPressed: () {
+              widget.college ? _selectedIndex(ref, 3) : _selectedIndex(ref, 0);
+              widget.college
+                  ? () async {
+                      print("Hello");
+                      if (city == '' || address == '') {
+                        return [];
+                      }
+                      SharedPreferences collegeSession =
+                          await SharedPreferences.getInstance();
+                      // Save data in the session
+                      await collegeSession.setString(
+                          'rank', selectedValue.rank.toString());
+                      await collegeSession.setString(
+                          'enrollment', selectedValue.enrollement.toString());
+                      await collegeSession.setString(
+                          'expense', selectedValue.expensive.toString());
+                      await collegeSession.setString('city', city.toString());
+                      await collegeSession.setString('gpa', gpa.toString());
+                      await collegeSession.setString(
+                          'address', address.toString());
+                      String? value = collegeSession.getString('address');
+                      print("The address value from session is");
+                      print(value);
+                      print("College Preferences Saved to Sesssion");
+                    }()
+                  : () async {
+                      SharedPreferences universitySession =
+                          await SharedPreferences.getInstance();
+                      // Save data in the session
+
+                      await universitySession.setString(
+                          'golbal_score', selectedValue.rank.toString());
+                      await universitySession.setString(
+                          'enrollment"', selectedValue.enrollement.toString());
+                      await universitySession.setString(
+                          'expense', selectedValue.expensive.toString());
+                      await universitySession.setString(
+                          'course', selectedCourse.toString());
+                      await universitySession.setString(
+                          'country', selectedCountry.toString());
+                      await universitySession.setString(
+                          'city', city.toString());
+                      await universitySession.setString('gpa', gpa.toString());
+                      await universitySession.setString('rank', "5");
+                    }();
+
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const HomePage()));
             },
-            child: const Text('View Result', textScaleFactor: 2)),
+            child: const Text('View Result', textScaleFactor: 1.5)),
       ),
       body: Padding(
         padding: myPadding,
@@ -193,35 +251,39 @@ class _CampusQuestionState extends ConsumerState<CampusQuestion> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 50),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomBackButton(),
                   CustomSkipButton(),
                 ],
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 40),
               Text(
                 'Enter your GPA in ${widget.college ? 'school' : '+2'}?',
                 style: mytitlemedium(context),
               ),
+              SizedBox(
+                height: 10,
+              ),
               Card(
-                elevation: 10,
+                elevation: 1,
                 child: SizedBox(
-                  height: 60,
+                  height: 50,
                   child: TextFormField(
-                    cursorHeight: 30,
                     decoration: const InputDecoration(
-                        border: UnderlineInputBorder(
-                          borderSide: BorderSide.none,
-                        ),
-                        labelText: 'Enter a number between 1.0 to 4.0'),
+                      contentPadding: EdgeInsets.all(10),
+                      border: UnderlineInputBorder(
+                        borderSide: BorderSide.none,
+                      ),
+                      hintText: 'Enter a number between 1.0 to 4.0',
+                    ),
                     inputFormatters: [
-                      LengthLimitingTextInputFormatter(3),
+                      LengthLimitingTextInputFormatter(4),
                     ],
                     keyboardType:
                         const TextInputType.numberWithOptions(decimal: true),
-                    onFieldSubmitted: (newValue) async {
+                    onChanged: (newValue) async {
                       await _validategrade(newValue.toString());
                       if (!invalidGrade) {
                         selectedgrade(ref, newValue.toString());
@@ -235,32 +297,35 @@ class _CampusQuestionState extends ConsumerState<CampusQuestion> {
                   'Please enter valid grade',
                   style: TextStyle(color: Colors.red, fontSize: 12),
                 ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
               Text(
                 widget.college
-                    ? 'Enter your address'
+                    ? 'Enter address'
                     : 'Which country university are you looking for?',
                 style: mytitlemedium(context),
               ),
+              SizedBox(
+                height: 10,
+              ),
               widget.college
                   ? Card(
-                      elevation: 10,
+                      elevation: 1,
                       child: SizedBox(
-                        height: 60,
+                        height: 50,
                         child: TextFormField(
-                            cursorHeight: 30,
                             decoration: const InputDecoration(
+                                contentPadding: EdgeInsets.all(10),
                                 border: UnderlineInputBorder(
                                   borderSide: BorderSide.none,
                                 ),
-                                labelText: 'Enter address'),
-                            onFieldSubmitted: (newValue) {
+                                hintText: 'Enter address'),
+                            onChanged: (newValue) {
                               _selectedAddress(ref, newValue);
                             }),
                       ),
                     )
                   : Card(
-                      elevation: 10,
+                      elevation: 1,
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton(
                             isExpanded: true,
@@ -285,24 +350,27 @@ class _CampusQuestionState extends ConsumerState<CampusQuestion> {
               if (widget.college == false) const SizedBox(height: 10),
               if (widget.college == false)
                 Card(
-                  elevation: 10,
+                  elevation: 1,
                   child: DropdownButtonHideUnderline(
-                    child: DropdownButton(
-                        isExpanded: true,
-                        icon: const Icon(
-                          Icons.keyboard_arrow_down,
-                          size: 40,
-                        ),
-                        value: selectedCourse,
-                        itemHeight: 60,
-                        items: List.generate(
-                            course.length,
-                            (index) => DropdownMenuItem(
-                                value: course[index],
-                                child: Text(course[index]))),
-                        onChanged: (value) {
-                          _selectedCourse(ref, value);
-                        }),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: DropdownButton(
+                          isExpanded: true,
+                          icon: const Icon(
+                            Icons.keyboard_arrow_down,
+                            size: 40,
+                          ),
+                          value: selectedCourse,
+                          itemHeight: 60,
+                          items: List.generate(
+                              course.length,
+                              (index) => DropdownMenuItem(
+                                  value: course[index],
+                                  child: Text(course[index]))),
+                          onChanged: (value) {
+                            _selectedCourse(ref, value);
+                          }),
+                    ),
                   ),
                 ),
               const SizedBox(height: 10),
@@ -311,32 +379,32 @@ class _CampusQuestionState extends ConsumerState<CampusQuestion> {
                 style: mytitlemedium(context),
               ),
               Card(
-                elevation: 10,
+                elevation: 1,
                 child: SizedBox(
-                  height: 60,
+                  height: 50,
                   child: TextFormField(
-                      cursorHeight: 30,
                       decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(10),
                           border: const UnderlineInputBorder(
                             borderSide: BorderSide.none,
                           ),
-                          labelText:
+                          hintText:
                               'Enter city to search ${widget.college ? 'college' : 'university'}'),
-                      onFieldSubmitted: (newValue) {
+                      onChanged: (newValue) {
                         _selectedCity(ref, newValue);
                       }),
                 ),
               ),
               const SizedBox(
-                height: 10,
+                height: 20,
               ),
               Text(
-                'Rank how high do you want your  ${widget.college ? 'College rank ' : 'university global score to be'} ?',
+                'Rank how high do you want your ${widget.college ? 'College rank' : 'university global score'} ?',
                 style: mytitlemedium(context),
               ),
               const SizedBox(height: 10),
               const CustomSelector(criteria: 'rank'),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
               Text(
                 'Rank how expensive do you want your  ${widget.college ? 'college' : 'university'} to be ?',
                 style: mytitlemedium(context),
@@ -345,7 +413,7 @@ class _CampusQuestionState extends ConsumerState<CampusQuestion> {
               const CustomSelector(
                 criteria: 'expensive',
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
               Text(
                 'Rank how high much enrollment do you want your ${widget.college ? 'college' : 'university'} to have ?',
                 style: mytitlemedium(context),
@@ -354,7 +422,7 @@ class _CampusQuestionState extends ConsumerState<CampusQuestion> {
               const CustomSelector(
                 criteria: 'enrollment',
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 30),
               Container(
                 padding: const EdgeInsets.all(20),
                 height: 110,
@@ -404,7 +472,7 @@ class CustomSelector extends ConsumerWidget {
             width: 50,
             child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    elevation: 10,
+                    elevation: 1,
                     backgroundColor:
                         (selectedbutton.rank == i && criteria == 'rank' ||
                                 selectedbutton.expensive == i &&

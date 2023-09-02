@@ -24,7 +24,7 @@ class _VerifyEmailState extends ConsumerState<VerifyEmail> {
   }
 
   sendOtp(BuildContext context) async {
-    final url = Uri.parse('http://192.168.1.70:3000/otp/generateOTP');
+    final url = Uri.parse('http://192.168.18.142:3000/otp/generateOTP');
     final headers = {'Content-Type': 'application/json'};
     final updatedEmail = ref.watch(emailStateProvider);
     final response = await http.post(url,
@@ -32,7 +32,7 @@ class _VerifyEmailState extends ConsumerState<VerifyEmail> {
 
     if (response.statusCode == 201) {
       print(response.body);
-      Navigator.pushNamed(context, MyRoutes.otpPage);
+      Navigator.pushNamed(context, MyRoutes.otpPage, arguments: updatedEmail);
     } else {
       // Login failed, handle the error response
       print('OTP failed. Error: ${response.statusCode}');
@@ -76,7 +76,7 @@ class _VerifyEmailState extends ConsumerState<VerifyEmail> {
                   decoration: InputDecoration(
                     fillColor: Colors.white,
                     filled: true,
-                    labelText: 'Enter Email',
+                    hintText: 'Enter Email',
                     border: UnderlineInputBorder(
                       borderSide: BorderSide.none,
                       borderRadius: BorderRadius.circular(10),

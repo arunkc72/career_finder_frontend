@@ -4,23 +4,31 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'constants.dart';
 
+void _updatevalue(WidgetRef ref, int val) {
+  ref.watch(indexValueProvider.notifier).update((state) => val);
+}
+
 class BottomNavBar extends ConsumerWidget {
   const BottomNavBar({super.key});
 
-  void _updatevalue(WidgetRef ref, int val) {
-    ref.watch(indexValueProvider.notifier).update((state) => val);
-  }
-
   _customnavdestinaton(String logoimage, String label) {
     return NavigationDestination(
-      icon: Image.asset(
-        logoimage,
-        color: Colors.grey,
+      icon: Container(
+        height: 30,
+        width: 30,
+        child: Image.asset(
+          logoimage,
+          color: Colors.grey,
+        ),
       ),
       label: label,
-      selectedIcon: Image.asset(
-        logoimage,
-        color: Colors.black,
+      selectedIcon: Container(
+        height: 35,
+        width: 35,
+        child: Image.asset(
+          logoimage,
+          color: Colors.black,
+        ),
       ),
     );
   }
@@ -29,18 +37,19 @@ class BottomNavBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final value = ref.watch(indexValueProvider);
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+      padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
       child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(10),
           child: NavigationBarTheme(
             data: const NavigationBarThemeData(
                 backgroundColor: Colors.white,
-                indicatorColor: mybackgroundcolor,
+                indicatorColor: Colors.white,
                 labelBehavior: NavigationDestinationLabelBehavior.alwaysShow),
             child: NavigationBar(
               height: 70,
               selectedIndex: value,
               onDestinationSelected: (value) {
+                print(value);
                 _updatevalue(ref, value);
               },
               labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
