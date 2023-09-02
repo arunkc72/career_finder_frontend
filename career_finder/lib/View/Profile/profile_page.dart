@@ -1,3 +1,4 @@
+import 'package:career_finder/View/Job/job_question.dart';
 import 'package:career_finder/View/Job/job_submission.dart';
 import 'package:career_finder/View/Utils/constants.dart';
 import 'package:career_finder/View/Utils/routes.dart';
@@ -142,8 +143,17 @@ class _ProfilePageState extends State<ProfilePage> {
                   'Add your college preferences',
                 ),
               ),
-              myListTile('assets/images/optionjob.png', 'View job preference',
-                  'View your job preferences'),
+              GestureDetector(
+                onTap: () {Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => JobQuestion(),
+                        ));
+                  
+                },
+                child: myListTile('assets/images/optionjob.png', 'View job preference',
+                    'View your job preferences'),
+              ),
               GestureDetector(
                   onTap: () {
                     Navigator.push(
