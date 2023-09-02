@@ -85,6 +85,7 @@ class ProfilePage extends StatelessWidget {
                   'View college preference', 'View your college preferences'),
               myListTile('assets/images/optionjob.png', 'View job preference',
                   'View your job preferences'),
+              myListTile('assets/images/optionjob.png', 'Add New Job', null),
             ],
           ),
           const SizedBox(height: 10),

@@ -29,7 +29,7 @@ class JobQuestion extends ConsumerWidget {
             salary: job.salary,
             jobType: job.jobType);
         final response =
-            await http.post(Uri.parse('http://192.168.1.68:5000/recommendJobs'),
+            await http.post(Uri.parse('$myurl:5000/recommendJobs'),
                 headers: {
                   'Content-Type': 'application/json',
                 },
